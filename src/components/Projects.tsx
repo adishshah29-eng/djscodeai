@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
+import Reveal from "./Reveal";
 
 interface Project {
   title: string;
@@ -75,16 +76,18 @@ export default function Projects() {
   return (
     <section id="projects" className="section-padding relative">
       <div className="mx-auto max-w-6xl">
-        <p className="label-caps mb-4 text-accent">Projects</p>
-        <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
-          What We Build
-        </h2>
-        <p className="text-muted text-lg max-w-2xl mb-16">
-          From generative models to financial systems — real research,
-          real code, real impact.
-        </p>
+        <Reveal>
+          <p className="label-caps mb-4 text-accent">Projects</p>
+          <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
+            What We Build
+          </h2>
+          <p className="text-muted text-lg max-w-2xl mb-16">
+            From generative models to financial systems — real research,
+            real code, real impact.
+          </p>
+        </Reveal>
 
-        <div className="grid lg:grid-cols-[1fr_320px] gap-12 items-start">
+        <Reveal className="grid lg:grid-cols-[1fr_320px] gap-12 items-start">
           {/* Main stage */}
           <div
             ref={cardRef}
@@ -179,7 +182,7 @@ export default function Projects() {
               </button>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

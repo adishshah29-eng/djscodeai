@@ -1,3 +1,6 @@
+import Reveal from "./Reveal";
+import TimelineLine from "./TimelineLine";
+
 type EventStatus = "open" | "closed" | "save-the-date";
 
 interface EventItem {
@@ -82,21 +85,23 @@ export default function Events() {
   return (
     <section id="events" className="section-padding relative">
       <div className="mx-auto max-w-4xl">
-        <p className="label-caps mb-4 text-accent">Events</p>
-        <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
-          What&apos;s Happening
-        </h2>
-        <p className="text-muted text-lg max-w-2xl mb-16">
-          Hackathons, seminars, and workshops — building skills through
-          experience.
-        </p>
+        <Reveal>
+          <p className="label-caps mb-4 text-accent">Events</p>
+          <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
+            What&apos;s Happening
+          </h2>
+          <p className="text-muted text-lg max-w-2xl mb-16">
+            Hackathons, seminars, and workshops — building skills through
+            experience.
+          </p>
+        </Reveal>
 
         {/* Vertical timeline */}
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-chrome-lo/50 via-chrome-lo/20 to-transparent" />
+          {/* Timeline line — draws downward as you scroll */}
+          <TimelineLine />
 
-          <div className="space-y-12">
+          <Reveal stagger={0.15} className="space-y-12">
             {EVENTS.map((event, i) => (
               <div key={event.title} className="relative pl-12 md:pl-20">
                 {/* Timeline dot */}
@@ -147,7 +152,7 @@ export default function Events() {
                 </div>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

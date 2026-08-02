@@ -1,22 +1,29 @@
+import Reveal from "./Reveal";
+
 export default function About() {
   return (
     <section id="about" className="section-padding relative">
       <div className="mx-auto max-w-6xl">
-        {/* Section label */}
-        <p className="label-caps mb-4 text-accent">About Us</p>
+        <Reveal>
+          {/* Section label */}
+          <p className="label-caps mb-4 text-accent">About Us</p>
 
-        {/* Vision statement — big and confident */}
-        <h2 className="display-heading text-3xl md:text-5xl lg:text-6xl chrome-text mb-8 max-w-4xl">
-          A Community Dedicated to the Frontiers of Intelligence
-        </h2>
-        <p className="text-muted text-lg md:text-xl max-w-2xl mb-20 leading-relaxed">
-          DJS CodeAI is a student-led community exploring the frontiers of
-          artificial intelligence and coding — bringing together passionate
-          individuals to learn, create, and innovate.
-        </p>
+          {/* Vision statement — big and confident */}
+          <h2 className="display-heading text-3xl md:text-5xl lg:text-6xl chrome-text mb-8 max-w-4xl">
+            A Community Dedicated to the Frontiers of Intelligence
+          </h2>
+          <p className="text-muted text-lg md:text-xl max-w-2xl mb-20 leading-relaxed">
+            DJS CodeAI is a student-led community exploring the frontiers of
+            artificial intelligence and coding — bringing together passionate
+            individuals to learn, create, and innovate.
+          </p>
+        </Reveal>
 
         {/* Three pillars on a thin grid */}
-        <div className="grid md:grid-cols-3 gap-px bg-glass-border rounded-2xl overflow-hidden mb-20">
+        <Reveal
+          stagger={0.12}
+          className="grid md:grid-cols-3 gap-px bg-glass-border rounded-2xl overflow-hidden mb-20"
+        >
           {PILLARS.map((pillar) => (
             <div
               key={pillar.title}
@@ -33,10 +40,10 @@ export default function About() {
               </p>
             </div>
           ))}
-        </div>
+        </Reveal>
 
         {/* Mentor-Mentee card with silver vein */}
-        <div className="relative glass-card rounded-2xl p-8 md:p-12 overflow-hidden">
+        <Reveal className="relative glass-card rounded-2xl p-8 md:p-12 overflow-hidden">
           {/* Silver vein connection */}
           <div className="absolute left-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-chrome-mid/30 to-transparent hidden md:block" />
 
@@ -76,10 +83,10 @@ export default function About() {
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-chrome-lo items-center justify-center bg-obsidian-2">
             <div className="w-2 h-2 rounded-full bg-accent/60" />
           </div>
-        </div>
+        </Reveal>
 
         {/* Vision statement */}
-        <div className="mt-20 text-center max-w-3xl mx-auto">
+        <Reveal className="mt-20 text-center max-w-3xl mx-auto">
           <blockquote className="text-chrome-mid text-lg md:text-xl italic leading-relaxed">
             &ldquo;To create a dedicated community that fosters innovation,
             collaboration, and hands-on learning in Machine Learning — bridging
@@ -87,7 +94,7 @@ export default function About() {
             through real-world projects and mentorship.&rdquo;
           </blockquote>
           <p className="label-caps mt-6">Our Vision</p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

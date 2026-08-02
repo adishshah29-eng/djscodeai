@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "./Reveal";
 
 interface TeamMember {
   name: string;
@@ -171,14 +172,16 @@ export default function Team() {
   return (
     <section id="team" className="section-padding relative">
       <div className="mx-auto max-w-6xl">
-        <p className="label-caps mb-4 text-accent">Our Team</p>
-        <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
-          The People Behind the Code
-        </h2>
-        <p className="text-muted text-lg max-w-2xl mb-12">
-          A diverse team of researchers, engineers, designers, and leaders
-          united by a passion for artificial intelligence.
-        </p>
+        <Reveal>
+          <p className="label-caps mb-4 text-accent">Our Team</p>
+          <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
+            The People Behind the Code
+          </h2>
+          <p className="text-muted text-lg max-w-2xl mb-12">
+            A diverse team of researchers, engineers, designers, and leaders
+            united by a passion for artificial intelligence.
+          </p>
+        </Reveal>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-12">
@@ -202,11 +205,14 @@ export default function Team() {
         </div>
 
         {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-glass-border rounded-2xl overflow-hidden">
+        <Reveal
+          stagger={0.06}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-glass-border rounded-2xl overflow-hidden"
+        >
           {visible.map((member) => (
             <MemberCard key={member.name} member={member} />
           ))}
-        </div>
+        </Reveal>
 
         {/* Show more */}
         {filtered.length > 8 && !showAll && (

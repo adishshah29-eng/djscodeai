@@ -2,9 +2,9 @@
 
 /* ─── DESIGN TOKENS ─── */
 :root {
-  --obsidian: #08090C;
-  --obsidian-2: #0C0D11;
-  --obsidian-3: #111218;
+  --obsidian: #000000;
+  --obsidian-2: #060607;
+  --obsidian-3: #0B0B0D;
   --chrome-hi: #F6F7FB;
   --chrome-mid: #C3C7D4;
   --chrome-lo: #41434D;
@@ -14,8 +14,8 @@
   --accent-cyan-dim: rgba(79, 230, 255, 0.15);
   --accent-cyan-glow: rgba(79, 230, 255, 0.4);
   --glass-border: rgba(195, 199, 212, 0.08);
-  --glass-bg: rgba(12, 13, 17, 0.6);
-  --glass-bg-hover: rgba(12, 13, 17, 0.8);
+  --glass-bg: rgba(10, 10, 12, 0.85);
+  --glass-bg-hover: rgba(16, 16, 19, 0.95);
   --grid-line: rgba(195, 199, 212, 0.04);
   --grid-size: 80px;
   --background: var(--obsidian);
@@ -46,8 +46,25 @@
 
 /* ─── BASE ─── */
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+}
+
+/* ─── LENIS SMOOTH SCROLL ─── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
@@ -61,32 +78,6 @@ body {
 ::selection {
   background: var(--accent-cyan-dim);
   color: var(--chrome-hi);
-}
-
-/* ─── NOISE OVERLAY ─── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-}
-
-/* ─── GRID OVERLAY ─── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9997;
-  pointer-events: none;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: var(--grid-size) var(--grid-size);
 }
 
 /* ─── CHROME TEXT ─── */
@@ -128,6 +119,54 @@ body::after {
   100% { background-position: 300% center; }
 }
 
+/* ─── STACKED PANELS ─── */
+/* Each section is a solid rounded panel that rises up and overlaps the
+   previous one as you scroll — a stacked-cards effect. */
+.stack-panel {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* solid surface so it fully covers the card behind it as it rises */
+  background:
+    linear-gradient(
+      180deg,
+      #131419 0%,
+      #0a0a0d 10%,
+      var(--obsidian) 28%
+    );
+  border-top: 1px solid rgba(195, 199, 212, 0.22);
+  border-top-left-radius: 2.5rem;
+  border-top-right-radius: 2.5rem;
+  /* lighter shadow: a big blurred shadow repaints every frame while scaling */
+  box-shadow: 0 -12px 28px -16px rgba(0, 0, 0, 0.9);
+  will-change: transform;
+}
+
+.stack-panel > section {
+  width: 100%;
+}
+
+/* A bright chrome sheen along the very top edge of each panel */
+.stack-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--chrome-hi),
+    transparent
+  );
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 2;
+}
+
 /* ─── CHROME BORDER ─── */
 .chrome-border {
   border: 1px solid transparent;
@@ -159,8 +198,6 @@ body::after {
 .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 
 .glass-card:hover {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Reveal from "./Reveal";
 
 export default function Contact() {
   const [sending, setSending] = useState(false);
@@ -19,7 +20,7 @@ export default function Contact() {
   return (
     <section id="contact" className="section-padding relative">
       <div className="mx-auto max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-16">
+        <Reveal stagger={0.15} className="grid lg:grid-cols-2 gap-16">
           {/* Left — info */}
           <div>
             <p className="label-caps mb-4 text-accent">Contact</p>
@@ -136,7 +137,7 @@ export default function Contact() {
               </button>
             </form>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

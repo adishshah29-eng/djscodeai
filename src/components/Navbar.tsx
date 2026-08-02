@@ -32,9 +32,19 @@ export default function Navbar() {
     }
   }, []);
 
+  // rAF-throttled: reading layout on every scroll event thrashes the main thread
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        handleScroll();
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [handleScroll]);
 
   useEffect(() => {
