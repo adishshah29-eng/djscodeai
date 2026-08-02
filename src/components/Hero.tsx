@@ -48,7 +48,9 @@ export default function Hero() {
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top top",
-              end: () => "+=" + window.innerHeight * 3,
+              // shorter pinned scroll on phones so the hero isn't a marathon
+              end: () =>
+                "+=" + window.innerHeight * (window.innerWidth >= 1024 ? 3 : 2),
               scrub: 1,
               pin: stageRef.current,
               anticipatePin: 1,
@@ -107,6 +109,15 @@ export default function Hero() {
         <div className="absolute inset-0 z-0">
           <HeroScene progressRef={progressRef} />
         </div>
+
+        {/* Mobile/tablet readability scrim — model sits behind centered text */}
+        <div
+          className="absolute inset-0 z-[5] pointer-events-none lg:hidden"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 45%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 42%, transparent 72%)",
+          }}
+        />
 
         {/* Text layer 1 — centered, then slides left */}
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-6">

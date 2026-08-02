@@ -117,7 +117,7 @@ export default function Contact() {
                   name="message"
                   rows={5}
                   placeholder="Your message..."
-                  className="w-full bg-obsidian-3 border border-glass-border rounded-xl px-4 py-3 text-chrome-hi text-sm placeholder-muted/50 resize-none transition-all duration-300 focus:outline-none focus:border-chrome-lo focus:ring-1 focus:ring-chrome-lo/30"
+                  className="w-full bg-obsidian-3 border border-glass-border rounded-xl px-4 py-3 text-chrome-hi text-base md:text-sm placeholder-muted/50 resize-none transition-all duration-300 focus:outline-none focus:border-chrome-lo focus:ring-1 focus:ring-chrome-lo/30"
                   required
                 />
               </div>
@@ -164,7 +164,7 @@ function FormField({
         name={name}
         type={type}
         placeholder={placeholder}
-        className="w-full bg-obsidian-3 border border-glass-border rounded-xl px-4 py-3 text-chrome-hi text-sm placeholder-muted/50 transition-all duration-300 focus:outline-none focus:border-chrome-lo focus:ring-1 focus:ring-chrome-lo/30"
+        className="w-full bg-obsidian-3 border border-glass-border rounded-xl px-4 py-3 text-chrome-hi text-base md:text-sm placeholder-muted/50 transition-all duration-300 focus:outline-none focus:border-chrome-lo focus:ring-1 focus:ring-chrome-lo/30"
         required
       />
     </div>

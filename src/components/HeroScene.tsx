@@ -80,11 +80,14 @@ function HeroModel({ progressRef }: { progressRef: ProgressRef }) {
   const groupRef = useRef<THREE.Group>(null!);
   const { scene } = useGLTF("/hero3Dmodel.glb");
   const mouse = useMouseParallax();
-  const isDesktop = useRef(true);
+  const view = useRef({ isDesktop: true, fit: 1 });
 
   useEffect(() => {
     const check = () => {
-      isDesktop.current = window.innerWidth >= 1024;
+      const w = window.innerWidth;
+      view.current.isDesktop = w >= 1024;
+      // shrink the model on narrow / portrait screens so it never overflows
+      view.current.fit = w < 480 ? 0.62 : w < 768 ? 0.72 : w < 1024 ? 0.85 : 1;
     };
     check();
     window.addEventListener("resize", check, { passive: true });
@@ -127,11 +130,13 @@ function HeroModel({ progressRef }: { progressRef: ProgressRef }) {
     const rot = smoothstep(0.54, 1.0, p); // extra rotation
     const b3 = smoothstep(0.72, 1.0, p); // lean toward viewer / spark
 
-    // scale in from 0
-    groupRef.current.scale.setScalar(scaleFactor * appear * (1 + b3 * 0.05));
+    // scale in from 0 (fit multiplier keeps it on-screen on small viewports)
+    groupRef.current.scale.setScalar(
+      scaleFactor * view.current.fit * appear * (1 + b3 * 0.05)
+    );
 
     // slide to the right (desktop split only)
-    const targetX = (isDesktop.current ? 2.0 : 0) * toRight;
+    const targetX = (view.current.isDesktop ? 2.0 : 0) * toRight;
 
     groupRef.current.position.set(
       -center.x * scaleFactor + targetX + Math.sin(t * 0.25) * 0.03,

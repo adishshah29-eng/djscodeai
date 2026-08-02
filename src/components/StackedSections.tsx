@@ -24,10 +24,11 @@ export default function StackedSections({ children }: { children: ReactNode }) {
     // On reduced motion, panels just flow normally.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    // Desktop only — on small screens the pin/cover fights touch scrolling.
+    // Desktop only — on tablet/mobile the pin/cover fights touch scrolling,
+    // so panels just flow as normal stacked cards there.
     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
+    mm.add("(min-width: 1024px)", () => {
       const ctx = gsap.context(() => {
         const panels = gsap.utils.toArray<HTMLElement>(".stack-panel", root);
 
@@ -40,15 +41,15 @@ export default function StackedSections({ children }: { children: ReactNode }) {
 
           if (i === 0) {
             // First panel rises over the hero. The hero has its own pin, so we
-            // don't pin it again — we just recede it (scale + fade, both
-            // GPU-composited) as About climbs over it.
+            // don't pin it again — we just push it back slightly (scale only,
+            // NEVER opacity: fading a covered panel reveals the stack behind it)
+            // as About climbs over it.
             if (heroStage) {
               gsap.fromTo(
                 heroStage,
-                { scale: 1, opacity: 1 },
+                { scale: 1 },
                 {
-                  scale: 0.94,
-                  opacity: 0.35,
+                  scale: 0.96,
                   ease: "none",
                   transformOrigin: "50% 45%",
                   scrollTrigger: {
@@ -65,15 +66,14 @@ export default function StackedSections({ children }: { children: ReactNode }) {
 
           const prev = panels[i - 1];
 
-          // Hold the previous card fixed while this one slides up over it,
-          // and recede it (scale + fade — GPU-composited, no repaint) so the
-          // cover reads as a receding stack.
+          // Hold the previous card fixed while this one slides up over it, and
+          // push it back slightly (scale only — opacity would make it
+          // see-through and expose the whole pinned stack).
           gsap.fromTo(
             prev,
-            { scale: 1, opacity: 1 },
+            { scale: 1 },
             {
-              scale: 0.92,
-              opacity: 0.4,
+              scale: 0.96,
               ease: "none",
               transformOrigin: "50% 45%",
               scrollTrigger: {
