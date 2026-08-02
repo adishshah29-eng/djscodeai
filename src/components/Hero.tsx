@@ -29,64 +29,52 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add(
-        {
-          isDesktop: "(min-width: 1024px)",
-          isMobile: "(max-width: 1023px)",
-        },
-        (context) => {
-          const isDesktop = context.conditions?.isDesktop ?? false;
-          const leftX = () => (isDesktop ? -window.innerWidth * 0.26 : 0);
+      // DESKTOP — full pinned scrollytelling (text splits left, model to right)
+      mm.add("(min-width: 1024px)", () => {
+        const leftX = () => -window.innerWidth * 0.26;
 
-          // initial states
-          gsap.set(l1Ref.current, { x: 0, opacity: 1 });
-          gsap.set(l2Ref.current, { x: leftX, opacity: 0, y: 20 });
+        gsap.set(l1Ref.current, { x: 0, opacity: 1, y: 0 });
+        gsap.set(l2Ref.current, { x: leftX, opacity: 0, y: 20 });
 
-          const proxy = { v: 0 };
+        const proxy = { v: 0 };
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              // shorter pinned scroll on phones so the hero isn't a marathon
-              end: () =>
-                "+=" + window.innerHeight * (window.innerWidth >= 1024 ? 3 : 2),
-              scrub: 1,
-              pin: stageRef.current,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => "+=" + window.innerHeight * 3,
+            scrub: 1,
+            pin: stageRef.current,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(
+          proxy,
+          {
+            v: 1,
+            duration: 1,
+            ease: "none",
+            onUpdate: () => {
+              progressRef.current = proxy.v;
             },
-          });
+          },
+          0
+        );
+        tl.to(l1Ref.current, { x: leftX, duration: 0.2, ease: "none" }, 0.34);
+        tl.to(l1Ref.current, { opacity: 0, duration: 0.08 }, 0.54);
+        tl.to(l2Ref.current, { opacity: 1, y: 0, duration: 0.12 }, 0.62);
+        tl.to(hintRef.current, { opacity: 0, duration: 0.08 }, 0.04);
+      });
 
-          // drive the 3D scene progress (scrubbed → smooth)
-          tl.to(
-            proxy,
-            {
-              v: 1,
-              duration: 1,
-              ease: "none",
-              onUpdate: () => {
-                progressRef.current = proxy.v;
-              },
-            },
-            0
-          );
-
-          // first text slides left, then fades
-          tl.to(l1Ref.current, { x: leftX, duration: 0.2, ease: "none" }, 0.34);
-          tl.to(l1Ref.current, { opacity: 0, duration: 0.08 }, 0.54);
-
-          // second text fades in on the left
-          tl.to(
-            l2Ref.current,
-            { opacity: 1, y: 0, duration: 0.12 },
-            0.62
-          );
-
-          // scroll hint fades out early
-          tl.to(hintRef.current, { opacity: 0, duration: 0.08 }, 0.04);
-        }
-      );
+      // MOBILE / TABLET — static hero, no pin. Hold the model at full scale
+      // (centered) and show the title + tagline + CTAs in one screen.
+      mm.add("(max-width: 1023px)", () => {
+        progressRef.current = 0.33; // model: fully formed, centered, idling
+        gsap.set(l1Ref.current, { x: 0, y: 0, opacity: 1 });
+        gsap.set(l2Ref.current, { opacity: 0 });
+      });
     }, sectionRef);
 
     // recalc once everything (fonts / model) settles
@@ -103,7 +91,7 @@ export default function Hero() {
     <section id="home" ref={sectionRef} className="relative">
       <div
         ref={stageRef}
-        className="hero-stage h-screen w-full relative overflow-hidden flex items-center justify-center"
+        className="hero-stage h-[100svh] w-full relative overflow-hidden flex items-center justify-center"
       >
         {/* 3D canvas */}
         <div className="absolute inset-0 z-0">
@@ -134,11 +122,27 @@ export default function Hero() {
               Fostering innovation in Artificial Intelligence &amp; Machine
               Learning
             </p>
+
+            {/* CTAs — mobile only (desktop shows them in the philosophy beat) */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10 pointer-events-auto lg:hidden">
+              <a
+                href="#projects"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium tracking-wide transition-all duration-300 active:bg-accent/20"
+              >
+                Explore Projects
+              </a>
+              <a
+                href="#about"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-glass-border text-chrome-mid text-sm font-medium tracking-wide transition-all duration-300 active:border-chrome-lo"
+              >
+                Learn More
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Text layer 2 — the philosophy, on the left */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-6">
+        {/* Text layer 2 — the philosophy, on the left (desktop scroll beat only) */}
+        <div className="absolute inset-0 z-10 hidden lg:flex items-center justify-center pointer-events-none px-6">
           <div ref={l2Ref} className="text-center lg:text-left max-w-xl">
             <p className="label-caps mb-5 text-accent tracking-[0.25em]">
               Our Philosophy

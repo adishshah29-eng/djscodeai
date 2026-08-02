@@ -119,63 +119,6 @@ body {
   100% { background-position: 300% center; }
 }
 
-/* ─── STACKED PANELS ─── */
-/* Each section is a solid rounded panel that rises up and overlaps the
-   previous one as you scroll — a stacked-cards effect. */
-.stack-panel {
-  position: relative;
-  /* solid surface so it fully covers the card behind it as it rises */
-  background:
-    linear-gradient(
-      180deg,
-      #131419 0%,
-      #0a0a0d 10%,
-      var(--obsidian) 28%
-    );
-  border-top: 1px solid rgba(195, 199, 212, 0.22);
-  border-top-left-radius: 1.75rem;
-  border-top-right-radius: 1.75rem;
-  /* lighter shadow: a big blurred shadow repaints every frame while scaling */
-  box-shadow: 0 -12px 28px -16px rgba(0, 0, 0, 0.9);
-}
-
-.stack-panel > section {
-  width: 100%;
-}
-
-/* The full-screen cover / pin behaviour is desktop-only. On tablet & mobile
-   the panels are simple stacked cards in normal flow (no pinning). */
-@media (min-width: 1024px) {
-  .stack-panel {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-top-left-radius: 2.5rem;
-    border-top-right-radius: 2.5rem;
-    will-change: transform;
-  }
-}
-
-/* A bright chrome sheen along the very top edge of each panel */
-.stack-panel::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 8%;
-  right: 8%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--chrome-hi),
-    transparent
-  );
-  opacity: 0.7;
-  pointer-events: none;
-  z-index: 2;
-}
-
 /* ─── CHROME BORDER ─── */
 .chrome-border {
   border: 1px solid transparent;
