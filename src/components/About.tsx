@@ -13,9 +13,14 @@ export default function About() {
             A Community Dedicated to the Frontiers of Intelligence
           </h2>
           <p className="text-muted text-lg md:text-xl max-w-2xl mb-20 leading-relaxed">
-            DJS CodeAI is a student-led community exploring the frontiers of
-            artificial intelligence and coding — bringing together passionate
-            individuals to learn, create, and innovate.
+            <strong className="text-chrome-mid font-medium">DJS CodeAI</strong>{" "}
+            is the AI &amp; ML club of{" "}
+            <strong className="text-chrome-mid font-medium">
+              DJ Sanghvi College of Engineering, Mumbai
+            </strong>{" "}
+            — a student-led community exploring the frontiers of artificial
+            intelligence and coding, bringing together passionate individuals
+            to learn, create, and innovate.
           </p>
         </Reveal>
 

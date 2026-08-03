@@ -114,9 +114,16 @@ export default function Hero() {
               DJ Sanghvi College of Engineering
             </p>
             <h1 className="display-heading text-6xl md:text-8xl lg:text-9xl chrome-text-animated leading-[0.92]">
-              DJS
-              <br />
-              CodeAI
+              {/* Full brand descriptor for search engines & screen readers */}
+              <span className="sr-only">
+                DJS CodeAI — the AI &amp; ML club of DJ Sanghvi College of
+                Engineering, Mumbai.
+              </span>
+              <span aria-hidden="true">
+                DJS
+                <br />
+                CodeAI
+              </span>
             </h1>
             <p className="text-muted text-base md:text-lg mt-6">
               Fostering innovation in Artificial Intelligence &amp; Machine

@@ -1,0 +1,26 @@
+{
+  "name": "DJS CodeAI — AI & ML Club of DJ Sanghvi College of Engineering",
+  "short_name": "DJS CodeAI",
+  "description": "The AI & ML club of DJ Sanghvi College of Engineering, Mumbai. A student-led community building the future of intelligence.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "categories": ["education", "technology", "productivity"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
