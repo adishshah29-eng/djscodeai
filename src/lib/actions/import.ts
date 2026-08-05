@@ -2,7 +2,7 @@
 
 import * as XLSX from "xlsx";
 import { revalidatePath } from "next/cache";
-import { requireAdmin, canManageCategory } from "@/lib/auth";
+import { requireAdmin, isTopAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { generatePassword } from "@/lib/password";
 
@@ -25,7 +25,8 @@ interface SheetRow {
   Email?: string;
   Password?: string;
   Phone?: string;
-  Category?: string;
+  // Accepts comma-separated category names, e.g. "Marketing, Creative"
+  Categories?: string;
   "Academic Year"?: string;
   "College ID"?: string;
 }
@@ -35,6 +36,7 @@ export async function importMembers(
   formData: FormData
 ): Promise<ImportFormState> {
   const admin = await requireAdmin();
+  const topAdmin = isTopAdmin(admin);
 
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
@@ -56,9 +58,9 @@ export async function importMembers(
   }
 
   const adminClient = createAdminClient();
-  const { data: categories } = await adminClient.from("categories").select("id, name");
+  const { data: allCategories } = await adminClient.from("categories").select("id, name");
   const categoryByName = new Map(
-    (categories ?? []).map((c) => [c.name.trim().toLowerCase(), c.id])
+    (allCategories ?? []).map((c) => [c.name.trim().toLowerCase(), c.id])
   );
 
   const results: ImportRowResult[] = [];
@@ -71,46 +73,43 @@ export async function importMembers(
     const phone = String(row["Phone"] || "").trim() || null;
     const academicYear = String(row["Academic Year"] || "").trim() || null;
     const collegeId = String(row["College ID"] || "").trim() || null;
-    const categoryName = String(row["Category"] || "").trim();
+    const categoriesRaw = String(row["Categories"] || "").trim();
 
     if (!fullName && !email) continue; // skip blank rows
 
     if (!fullName || !email) {
-      results.push({
-        row: rowNum,
-        name: fullName || "—",
-        email: email || "—",
-        status: "error",
-        message: "Full Name and Email are required.",
-      });
+      results.push({ row: rowNum, name: fullName || "—", email: email || "—", status: "error", message: "Full Name and Email are required." });
       continue;
     }
 
-    let categoryId: string | null;
-    if (admin.role === "category_admin") {
-      categoryId = admin.category_id;
+    // Resolve category names to IDs
+    let categoryIds: string[];
+    if (!topAdmin) {
+      // Heads can only import into their own category
+      categoryIds = admin.category_id ? [admin.category_id] : [];
     } else {
-      categoryId = categoryByName.get(categoryName.toLowerCase()) ?? null;
-      if (!categoryId) {
-        results.push({
-          row: rowNum,
-          name: fullName,
-          email,
-          status: "error",
-          message: `Unknown category "${categoryName || "(blank)"}".`,
-        });
+      // Top admins: parse comma-separated categories from the sheet
+      const names = categoriesRaw.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+      if (names.length === 0) {
+        results.push({ row: rowNum, name: fullName, email, status: "error", message: "Categories column is empty." });
         continue;
       }
+      categoryIds = [];
+      let hasUnknown = false;
+      for (const name of names) {
+        const id = categoryByName.get(name);
+        if (!id) {
+          results.push({ row: rowNum, name: fullName, email, status: "error", message: `Unknown category "${name}".` });
+          hasUnknown = true;
+          break;
+        }
+        categoryIds.push(id);
+      }
+      if (hasUnknown) continue;
     }
 
-    if (!categoryId || !canManageCategory(admin, categoryId)) {
-      results.push({
-        row: rowNum,
-        name: fullName,
-        email,
-        status: "error",
-        message: "You cannot add members to this category.",
-      });
+    if (categoryIds.length === 0) {
+      results.push({ row: rowNum, name: fullName, email, status: "error", message: "No valid category found." });
       continue;
     }
 
@@ -123,13 +122,7 @@ export async function importMembers(
     });
 
     if (createError || !created.user) {
-      results.push({
-        row: rowNum,
-        name: fullName,
-        email,
-        status: "error",
-        message: createError?.message || "Could not create account.",
-      });
+      results.push({ row: rowNum, name: fullName, email, status: "error", message: createError?.message || "Could not create account." });
       continue;
     }
 
@@ -138,7 +131,6 @@ export async function importMembers(
       full_name: fullName,
       email,
       role: "member",
-      category_id: categoryId,
       phone,
       academic_year: academicYear,
       college_id: collegeId,
@@ -148,13 +140,20 @@ export async function importMembers(
     if (profileError) {
       await adminClient.auth.admin.deleteUser(created.user.id);
       results.push({
-        row: rowNum,
-        name: fullName,
-        email,
-        status: "error",
-        message:
-          profileError.code === "23505" ? "A user with this email already exists." : profileError.message,
+        row: rowNum, name: fullName, email, status: "error",
+        message: profileError.code === "23505" ? "A user with this email already exists." : profileError.message,
       });
+      continue;
+    }
+
+    // Insert member_categories rows
+    const { error: catError } = await adminClient.from("member_categories").insert(
+      categoryIds.map((cid) => ({ member_id: created.user!.id, category_id: cid }))
+    );
+
+    if (catError) {
+      await adminClient.auth.admin.deleteUser(created.user.id);
+      results.push({ row: rowNum, name: fullName, email, status: "error", message: catError.message });
       continue;
     }
 

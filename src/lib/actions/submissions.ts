@@ -16,12 +16,28 @@ export async function submitTask(
   const member = await requireMember();
   const assignmentId = String(formData.get("assignment_id") || "");
   const textResponse = String(formData.get("text_response") || "").trim() || null;
-  const linkUrl = String(formData.get("link_url") || "").trim() || null;
+  const linkUrlRaw = String(formData.get("link_url") || "").trim();
   const files = formData.getAll("files").filter((f): f is File => f instanceof File && f.size > 0);
 
   if (!assignmentId) {
     return { error: "Missing assignment." };
   }
+
+  // Only allow http(s) links — this gets rendered as a clickable <a href> in the
+  // admin panel, so a javascript: or data: URI here would be a stored XSS against admins.
+  let linkUrl: string | null = null;
+  if (linkUrlRaw) {
+    try {
+      const parsed = new URL(linkUrlRaw);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return { error: "Link must start with http:// or https://." };
+      }
+      linkUrl = linkUrlRaw;
+    } catch {
+      return { error: "That doesn't look like a valid link." };
+    }
+  }
+
   if (!textResponse && !linkUrl && files.length === 0) {
     return { error: "Add a text response, a link, or at least one file." };
   }

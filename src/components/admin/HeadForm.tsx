@@ -1,15 +1,15 @@
 "use client";
 
 import { useActionState, useRef, useEffect } from "react";
-import { createRecruiter, type RecruiterFormState } from "@/lib/actions/recruiters";
+import { createHead, type HeadFormState } from "@/lib/actions/heads";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, Select } from "@/components/ui/Input";
 import { Alert } from "@/components/ui/Card";
 import type { Category } from "@/lib/types";
 
-export function RecruiterForm({ categories }: { categories: Category[] }) {
-  const [state, formAction, pending] = useActionState<RecruiterFormState, FormData>(
-    createRecruiter,
+export function HeadForm({ categories }: { categories: Category[] }) {
+  const [state, formAction, pending] = useActionState<HeadFormState, FormData>(
+    createHead,
     {}
   );
   const formRef = useRef<HTMLFormElement>(null);
@@ -20,6 +20,9 @@ export function RecruiterForm({ categories }: { categories: Category[] }) {
 
   return (
     <form ref={formRef} action={formAction} className="space-y-4">
+      <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        Add a new Head (category admin)
+      </p>
       {state.error && <Alert variant="error">{state.error}</Alert>}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
@@ -49,7 +52,7 @@ export function RecruiterForm({ categories }: { categories: Category[] }) {
         </div>
       </div>
       <Button type="submit" disabled={pending}>
-        {pending ? "Creating…" : "Create recruiter"}
+        {pending ? "Creating…" : "Create head"}
       </Button>
     </form>
   );

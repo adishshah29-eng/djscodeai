@@ -27,14 +27,14 @@ export default async function MemberDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">My Tasks</h1>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      <h1 className="text-2xl font-semibold text-panel-text">My Tasks</h1>
+      <p className="mt-1 text-sm text-panel-muted">
         {assignments?.length ?? 0} task{assignments?.length === 1 ? "" : "s"} assigned to you.
       </p>
 
-      <Card className="mt-6 divide-y divide-slate-200 dark:divide-slate-800">
+      <Card className="mt-6 divide-y divide-panel-border">
         {!assignments?.length && (
-          <p className="p-5 text-sm text-slate-500 dark:text-slate-400">
+          <p className="p-5 text-sm text-panel-muted">
             No tasks assigned yet. Check back later.
           </p>
         )}
@@ -42,13 +42,13 @@ export default async function MemberDashboardPage() {
           <Link
             key={assignment.id}
             href={`/member/tasks/${assignment.id}`}
-            className="flex items-center justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+            className="flex items-center justify-between gap-4 p-4 hover:bg-panel-bg"
           >
             <div className="min-w-0">
-              <p className="font-medium text-slate-900 dark:text-white">
+              <p className="font-medium text-panel-text">
                 {assignment.tasks?.title}
               </p>
-              <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+              <p className="truncate text-xs text-panel-muted">
                 {assignment.tasks?.categories?.name ?? "—"}
                 {assignment.tasks?.due_date
                   ? ` · Due ${new Date(assignment.tasks.due_date).toLocaleDateString()}`

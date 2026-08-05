@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentProfile } from "@/lib/auth";
 import { memberLogin } from "@/lib/actions/auth";
@@ -16,16 +17,25 @@ export default async function MemberLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-panel-bg px-4">
       <Card className="w-full max-w-sm p-8">
-        <h1 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white">
+        <h1 className="mb-1 text-xl font-semibold text-panel-text">
           Member Portal
         </h1>
-        <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mb-6 text-sm text-panel-muted">
           Sign in to view and submit your tasks.
         </p>
         <LoginForm action={memberLogin} submitLabel="Sign in" />
       </Card>
+      <p className="mt-4 text-sm text-panel-muted">
+        Are you a Head or Admin?{" "}
+        <Link
+          href="/admin/login"
+          className="font-medium text-panel-text underline underline-offset-2 hover:text-panel-accent"
+        >
+          Admin login →
+        </Link>
+      </p>
     </div>
   );
 }

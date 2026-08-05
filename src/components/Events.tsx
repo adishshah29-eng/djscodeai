@@ -102,7 +102,7 @@ export default function Events() {
           <TimelineLine />
 
           <Reveal stagger={0.15} className="space-y-12">
-            {EVENTS.map((event, i) => (
+            {EVENTS.map((event) => (
               <div key={event.title} className="relative pl-12 md:pl-20">
                 {/* Timeline dot */}
                 <div

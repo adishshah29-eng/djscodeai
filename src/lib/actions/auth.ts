@@ -24,6 +24,7 @@ async function signIn(
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error || !data.user) {
+    console.error("Sign in error:", error);
     return { error: "Invalid email or password." };
   }
 
@@ -45,7 +46,9 @@ export async function adminLogin(
   _prevState: AuthFormState,
   formData: FormData
 ): Promise<AuthFormState> {
-  return signIn(formData, ["super_admin", "category_admin"], () => "/admin");
+  // Chair Person (super_admin), Vice Chair (vice_chair), and all Heads (category_admin)
+  // all use this single admin login page.
+  return signIn(formData, ["super_admin", "vice_chair", "category_admin"], () => "/admin");
 }
 
 export async function memberLogin(

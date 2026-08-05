@@ -4,14 +4,14 @@ import { revalidatePath } from "next/cache";
 import { requireSuperAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-export interface RecruiterFormState {
+export interface HeadFormState {
   error?: string;
 }
 
-export async function createRecruiter(
-  _prevState: RecruiterFormState,
+export async function createHead(
+  _prevState: HeadFormState,
   formData: FormData
-): Promise<RecruiterFormState> {
+): Promise<HeadFormState> {
   const admin = await requireSuperAdmin();
 
   const fullName = String(formData.get("full_name") || "").trim();
@@ -26,7 +26,7 @@ export async function createRecruiter(
     return { error: "Password must be at least 8 characters." };
   }
   if (!categoryId) {
-    return { error: "Please select a category for this recruiter." };
+    return { error: "Please select a category for this head." };
   }
 
   const adminClient = createAdminClient();
@@ -54,13 +54,13 @@ export async function createRecruiter(
     return { error: profileError.message };
   }
 
-  revalidatePath("/admin/recruiters");
+  revalidatePath("/admin/heads");
   return {};
 }
 
-export async function deleteRecruiter(recruiterId: string) {
+export async function deleteHead(headId: string) {
   await requireSuperAdmin();
   const adminClient = createAdminClient();
-  await adminClient.auth.admin.deleteUser(recruiterId);
-  revalidatePath("/admin/recruiters");
+  await adminClient.auth.admin.deleteUser(headId);
+  revalidatePath("/admin/heads");
 }

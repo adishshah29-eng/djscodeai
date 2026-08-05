@@ -7,14 +7,31 @@ export default function Contact() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const subject = String(data.get("subject") || "").trim();
+    const message = String(data.get("message") || "").trim();
+
+    const mailSubject = subject || `Message from ${name}`;
+    const mailBody = `${message}\n\n— ${name} (${email})`;
+    const mailtoUrl = `mailto:contact.djscodeai@gmail.com?subject=${encodeURIComponent(
+      mailSubject
+    )}&body=${encodeURIComponent(mailBody)}`;
+
     setSending(true);
-    setTimeout(() => {
+    // Hands off to the visitor's own mail client — no backend/API-key needed,
+    // and it actually delivers the message (the old version just faked "Sent!").
+    window.location.href = mailtoUrl;
+    window.setTimeout(() => {
       setSending(false);
       setSent(true);
-      setTimeout(() => setSent(false), 3000);
-    }, 1500);
+      form.reset();
+      window.setTimeout(() => setSent(false), 3000);
+    }, 600);
   }
 
   return (

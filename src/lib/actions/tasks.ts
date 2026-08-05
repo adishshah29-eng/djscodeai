@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin, canManageCategory } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import type { AssignmentStatus, TaskType } from "@/lib/types";
 
 export interface TaskFormState {
@@ -21,7 +22,9 @@ export async function createTask(
   const type = String(formData.get("type") || "general") as TaskType;
   const dueDateRaw = String(formData.get("due_date") || "");
   const categoryId =
-    admin.role === "category_admin" ? admin.category_id : String(formData.get("category_id") || "") || null;
+    admin.role === "category_admin"
+      ? admin.category_id
+      : String(formData.get("category_id") || "") || null;
   const assignAll = formData.get("assign_all") === "on";
   const memberIds = formData.getAll("member_ids").map(String);
 
@@ -38,20 +41,22 @@ export async function createTask(
     return { error: "Select at least one member, or assign to the whole category." };
   }
 
+  // Use admin client to avoid RLS issues when fetching member_categories
+  const adminClient = createAdminClient();
   const supabase = await createClient();
 
   let assigneeIds = memberIds;
   if (assignAll) {
-    const { data: members } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("role", "member")
+    // Get all members in this category via member_categories join table
+    const { data: memberCats } = await adminClient
+      .from("member_categories")
+      .select("member_id")
       .eq("category_id", categoryId);
-    assigneeIds = (members ?? []).map((m) => m.id);
+    assigneeIds = (memberCats ?? []).map((mc) => mc.member_id);
   }
 
   if (assigneeIds.length === 0) {
-    return { error: "No members found to assign this task to." };
+    return { error: "No members found in this category to assign the task to." };
   }
 
   const { data: task, error: taskError } = await supabase
@@ -92,6 +97,17 @@ export async function reviewSubmission(
   const admin = await requireAdmin();
   const supabase = await createClient();
 
+  const { data: assignment } = (await supabase
+    .from("task_assignments")
+    .select("id, tasks(category_id)")
+    .eq("id", assignmentId)
+    .single()) as unknown as { data: { id: string; tasks: { category_id: string | null } | null } | null };
+
+  const taskCategoryId = assignment?.tasks?.category_id ?? null;
+  if (!assignment || !canManageCategory(admin, taskCategoryId)) {
+    return;
+  }
+
   await supabase
     .from("submissions")
     .update({
@@ -107,8 +123,68 @@ export async function reviewSubmission(
 }
 
 export async function deleteTask(taskId: string) {
-  await requireAdmin();
+  const admin = await requireAdmin();
   const supabase = await createClient();
+
+  const { data: task } = await supabase.from("tasks").select("category_id").eq("id", taskId).single();
+  if (!task || !canManageCategory(admin, task.category_id)) {
+    return;
+  }
+
+  // Cleanup storage files for submissions associated with this task
+  const { data: assignments } = await supabase.from("task_assignments").select("id").eq("task_id", taskId);
+  const assignmentIds = (assignments ?? []).map((a) => a.id);
+
+  if (assignmentIds.length > 0) {
+    const { data: submissions } = await supabase.from("submissions").select("file_paths").in("task_assignment_id", assignmentIds);
+    const allPaths = (submissions ?? []).flatMap((sub) => sub.file_paths || []);
+    if (allPaths.length > 0) {
+      await supabase.storage.from("submissions").remove(allPaths);
+    }
+  }
+
   await supabase.from("tasks").delete().eq("id", taskId);
   revalidatePath("/admin/tasks");
+}
+
+export async function updateTask(
+  taskId: string,
+  _prevState: TaskFormState,
+  formData: FormData
+): Promise<TaskFormState> {
+  const admin = await requireAdmin();
+
+  const title = String(formData.get("title") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+  const type = String(formData.get("type") || "general") as TaskType;
+  const dueDateRaw = String(formData.get("due_date") || "");
+
+  if (!title || !description) {
+    return { error: "Title and description are required." };
+  }
+
+  const supabase = await createClient();
+
+  const { data: task } = await supabase.from("tasks").select("category_id").eq("id", taskId).single();
+  if (!task || !canManageCategory(admin, task.category_id)) {
+    return { error: "You cannot manage this task." };
+  }
+
+  const { error: updateError } = await supabase
+    .from("tasks")
+    .update({
+      title,
+      description,
+      type,
+      due_date: dueDateRaw ? new Date(dueDateRaw).toISOString() : null,
+    })
+    .eq("id", taskId);
+
+  if (updateError) {
+    return { error: updateError.message };
+  }
+
+  revalidatePath("/admin/tasks");
+  revalidatePath(`/admin/tasks/${taskId}`);
+  redirect(`/admin/tasks/${taskId}`);
 }

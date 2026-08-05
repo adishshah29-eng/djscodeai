@@ -24,6 +24,14 @@ const supabase = createClient(url, serviceKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
+// First check if user exists and delete them if they do
+const { data: { users } } = await supabase.auth.admin.listUsers();
+const existingUser = users.find(u => u.email === email);
+if (existingUser) {
+  console.log(`Found existing auth user for ${email}, deleting to recreate...`);
+  await supabase.auth.admin.deleteUser(existingUser.id);
+}
+
 const { data: created, error: createError } = await supabase.auth.admin.createUser({
   email,
   password,

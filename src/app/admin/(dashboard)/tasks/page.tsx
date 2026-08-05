@@ -34,8 +34,8 @@ export default async function TasksPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">Tasks</h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          <h1 className="text-2xl font-semibold text-panel-text">Tasks</h1>
+          <p className="mt-1 text-sm text-panel-muted">
             {tasks?.length ?? 0} task{tasks?.length === 1 ? "" : "s"}
           </p>
         </div>
@@ -44,28 +44,30 @@ export default async function TasksPage() {
         </Link>
       </div>
 
-      <Card className="mt-6 divide-y divide-slate-200 dark:divide-slate-800">
+      <Card className="mt-6 divide-y divide-panel-border">
         {!tasks?.length && (
-          <p className="p-5 text-sm text-slate-500 dark:text-slate-400">No tasks yet.</p>
+          <p className="p-5 text-sm text-panel-muted">No tasks yet.</p>
         )}
         {tasks?.map((task) => {
           const total = task.task_assignments.length;
           const pending = task.task_assignments.filter((a) => a.status === "submitted").length;
+          const isOverdue = task.due_date && new Date(task.due_date) < new Date();
           return (
             <Link
               key={task.id}
               href={`/admin/tasks/${task.id}`}
-              className="flex items-center justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+              className="flex items-center justify-between gap-4 p-4 hover:bg-panel-bg"
             >
               <div className="min-w-0">
-                <p className="font-medium text-slate-900 dark:text-white">{task.title}</p>
-                <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                <p className="font-medium text-panel-text">{task.title}</p>
+                <p className="truncate text-xs text-panel-muted">
                   {task.categories?.name ?? "—"} · {total} assigned
                   {task.due_date ? ` · due ${new Date(task.due_date).toLocaleDateString()}` : ""}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 <Badge variant="default">{task.type}</Badge>
+                {isOverdue && <Badge variant="danger">Overdue</Badge>}
                 {pending > 0 && <Badge variant="submitted">{pending} to review</Badge>}
               </div>
             </Link>

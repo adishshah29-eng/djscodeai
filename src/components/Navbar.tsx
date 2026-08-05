@@ -96,6 +96,21 @@ export default function Navbar() {
               )}
             </a>
           ))}
+          
+          <div className="ml-4 flex items-center gap-3 border-l border-glass-border pl-4">
+            <a
+              href="/admin/login"
+              className="px-4 py-1.5 text-sm font-medium text-chrome-mid hover:text-white border border-glass-border rounded-full hover:bg-white/5 transition-colors"
+            >
+              Admin
+            </a>
+            <a
+              href="/member/login"
+              className="px-4 py-1.5 text-sm font-medium text-black bg-accent hover:bg-accent/90 rounded-full transition-colors shadow-[0_0_15px_rgba(79,230,255,0.3)]"
+            >
+              Member
+            </a>
+          </div>
         </div>
 
         {/* Mobile hamburger */}
@@ -152,6 +167,27 @@ export default function Navbar() {
               {item.label}
             </a>
           ))}
+          
+          <div className="flex flex-col items-center gap-4 mt-4" style={{
+            transitionDelay: menuOpen ? `${NAV_ITEMS.length * 60}ms` : "0ms",
+            opacity: menuOpen ? 1 : 0,
+            transform: menuOpen ? "translateY(0)" : "translateY(20px)",
+          }}>
+            <a
+              href="/admin/login"
+              onClick={() => setMenuOpen(false)}
+              className="px-6 py-2 text-lg font-medium text-chrome-mid border border-glass-border rounded-full"
+            >
+              Admin Portal
+            </a>
+            <a
+              href="/member/login"
+              onClick={() => setMenuOpen(false)}
+              className="px-6 py-2 text-lg font-medium text-black bg-accent rounded-full"
+            >
+              Member Portal
+            </a>
+          </div>
         </div>
       </div>
     </nav>

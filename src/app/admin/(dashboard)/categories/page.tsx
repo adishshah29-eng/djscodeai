@@ -16,8 +16,8 @@ export default async function CategoriesPage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">Categories</h1>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      <h1 className="text-2xl font-semibold text-panel-text">Categories</h1>
+      <p className="mt-1 text-sm text-panel-muted">
         Departments like Marketing, Events, Publicity, Creatives, Tech — create as many as you need.
       </p>
 
@@ -25,15 +25,15 @@ export default async function CategoriesPage() {
         <CategoryForm />
       </Card>
 
-      <Card className="mt-6 divide-y divide-slate-200 dark:divide-slate-800">
+      <Card className="mt-6 divide-y divide-panel-border">
         {!categories?.length && (
-          <p className="p-5 text-sm text-slate-500 dark:text-slate-400">No categories yet.</p>
+          <p className="p-5 text-sm text-panel-muted">No categories yet.</p>
         )}
         {categories?.map((category) => (
           <div key={category.id} className="flex items-center justify-between p-4">
             <div>
-              <p className="font-medium text-slate-900 dark:text-white">{category.name}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{category.slug}</p>
+              <p className="font-medium text-panel-text">{category.name}</p>
+              <p className="text-xs text-panel-muted">{category.slug}</p>
             </div>
             <DeleteButton
               action={deleteCategory.bind(null, category.id)}

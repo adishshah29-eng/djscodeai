@@ -8,10 +8,10 @@ export default async function ImportMembersPage() {
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">
+      <h1 className="text-2xl font-semibold text-panel-text">
         Import members from Excel
       </h1>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mt-1 text-sm text-panel-muted">
         Upload a .xlsx sheet with columns: Full Name, Email, Password (optional), Phone,
         Category, Academic Year, College ID.
       </p>

@@ -20,6 +20,23 @@
   --grid-size: 80px;
   --background: var(--obsidian);
   --foreground: var(--silver-text);
+
+  /* ─── ADMIN PANEL TOKENS ─── */
+  --panel-bg: #F7F8FA;
+  --panel-surface: #FFFFFF;
+  --panel-border: #E4E8F0;
+  --panel-text: #1A1D29;
+  --panel-muted: #6B7080;
+  --panel-accent: #0EA5C4;
+  --panel-accent-soft: #E0F7FB;
+  --panel-chair-bg: #FEF3C7;
+  --panel-chair-fg: #B45309;
+  --panel-vice-chair-bg: #EDE9FE;
+  --panel-vice-chair-fg: #6D28D9;
+  --panel-head-bg: #CCFBF1;
+  --panel-head-fg: #0F766E;
+  --panel-member-bg: #DBEAFE;
+  --panel-member-fg: #1D4ED8;
 }
 
 @theme inline {
@@ -42,6 +59,22 @@
   --font-display: var(--font-space-grotesk);
   --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+
+  --color-panel-bg: var(--panel-bg);
+  --color-panel-surface: var(--panel-surface);
+  --color-panel-border: var(--panel-border);
+  --color-panel-text: var(--panel-text);
+  --color-panel-muted: var(--panel-muted);
+  --color-panel-accent: var(--panel-accent);
+  --color-panel-accent-soft: var(--panel-accent-soft);
+  --color-panel-chair-bg: var(--panel-chair-bg);
+  --color-panel-chair-fg: var(--panel-chair-fg);
+  --color-panel-vice-chair-bg: var(--panel-vice-chair-bg);
+  --color-panel-vice-chair-fg: var(--panel-vice-chair-fg);
+  --color-panel-head-bg: var(--panel-head-bg);
+  --color-panel-head-fg: var(--panel-head-fg);
+  --color-panel-member-bg: var(--panel-member-bg);
+  --color-panel-member-fg: var(--panel-member-fg);
 }
 
 /* ─── BASE ─── */

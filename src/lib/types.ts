@@ -1,4 +1,4 @@
-export type UserRole = "super_admin" | "category_admin" | "member";
+export type UserRole = "super_admin" | "vice_chair" | "category_admin" | "member";
 export type TaskType = "coding" | "general";
 export type AssignmentStatus = "pending" | "submitted" | "approved" | "rejected";
 

@@ -1,7 +1,7 @@
 # Admin Panel Setup
 
 This adds an admin panel + member portal on top of the marketing site:
-recruiters can add members (manually or via Excel import), assign coding or
+Heads can add members (manually or via Excel import), assign coding or
 general tasks scoped to a category, and members log in separately to submit
 their work.
 
@@ -44,13 +44,15 @@ Then sign in at `/admin/login`.
 
 ## 4. Roles
 
-- **super_admin** — manages categories, recruiters, all members, all tasks
-- **category_admin** (recruiter) — manages members and tasks within their
+- **super_admin** (Chair Person) — manages categories, heads, all members, all tasks
+- **vice_chair** (Vice Chair) — same top-level access as super_admin, minus
+  the ability to manage categories; bootstrapped manually via SQL, no UI form
+- **category_admin** (Head) — manages members and tasks within their
   assigned category only
 - **member** (recruit) — logs in at `/member/login`, sees assigned tasks,
   submits text / links / files
 
-Super admins create recruiters from `/admin/recruiters`, and create/import
+Super admins create Heads from `/admin/heads`, and create/import
 members from `/admin/members`.
 
 ## 5. Member import format

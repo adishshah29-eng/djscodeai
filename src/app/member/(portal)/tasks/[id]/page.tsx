@@ -47,10 +47,10 @@ export default async function MemberTaskPage({
     <div className="max-w-2xl">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-semibold text-panel-text">
             {assignment.tasks?.title}
           </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-sm text-panel-muted">
             {assignment.tasks?.categories?.name ?? "—"}
             {assignment.tasks?.due_date
               ? ` · Due ${new Date(assignment.tasks.due_date).toLocaleDateString()}`
@@ -61,23 +61,23 @@ export default async function MemberTaskPage({
       </div>
 
       <Card className="mt-4 p-5">
-        <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300">
+        <p className="whitespace-pre-wrap text-sm text-panel-text">
           {assignment.tasks?.description}
         </p>
       </Card>
 
       {latest?.review_note && (
         <Card className="mt-4 p-5">
-          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+          <p className="text-xs font-medium text-panel-muted">
             Feedback from reviewer
           </p>
-          <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">{latest.review_note}</p>
+          <p className="mt-1 text-sm text-panel-text">{latest.review_note}</p>
         </Card>
       )}
 
       {assignment.status !== "approved" && (
         <Card className="mt-6 p-5">
-          <h2 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 text-sm font-semibold text-panel-text">
             {latest ? "Resubmit" : "Submit your work"}
           </h2>
           <SubmitForm assignmentId={assignment.id} />

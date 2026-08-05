@@ -7,6 +7,7 @@ import { slugify } from "@/lib/slugify";
 
 export interface CategoryFormState {
   error?: string;
+  success?: boolean;
 }
 
 export async function createCategory(
@@ -29,7 +30,32 @@ export async function createCategory(
   }
 
   revalidatePath("/admin/categories");
-  return {};
+  return { success: true };
+}
+
+export async function updateCategory(
+  id: string,
+  _prevState: CategoryFormState,
+  formData: FormData
+): Promise<CategoryFormState> {
+  await requireSuperAdmin();
+
+  const name = String(formData.get("name") || "").trim();
+  if (!name) return { error: "Category name is required." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("categories").update({
+    name,
+    slug: slugify(name),
+  }).eq("id", id);
+
+  if (error) {
+    return { error: error.code === "23505" ? "A category with this name already exists." : error.message };
+  }
+
+  revalidatePath("/admin/categories");
+  revalidatePath(`/admin/categories/${id}`);
+  return { success: true };
 }
 
 export async function deleteCategory(categoryId: string) {
