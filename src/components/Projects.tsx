@@ -102,7 +102,7 @@ function BrowserDots() {
   );
 }
 
-// ─── Grid card with hover-loaded live preview ────────────────────────────
+// ─── Grid card with an always-on live preview ────────────────────────────
 function ProjectCard({
   project,
   index,
@@ -112,12 +112,14 @@ function ProjectCard({
   index: number;
   onOpen: () => void;
 }) {
+  const cardRef = useRef<HTMLButtonElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.3);
-  const [everHovered, setEverHovered] = useState(false);
-  const [hovered, setHovered] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const DESIGN_W = 1280;
 
+  // scale the 1280px-wide iframe down to fit the card
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -127,6 +129,23 @@ function ProjectCard({
     });
     ro.observe(el);
     return () => ro.disconnect();
+  }, []);
+
+  // mount the live preview as the card approaches the viewport (no hover needed)
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   const iframeStyle: CSSProperties = {
@@ -140,14 +159,10 @@ function ProjectCard({
 
   return (
     <button
+      ref={cardRef}
       type="button"
       onClick={onOpen}
-      onMouseEnter={() => {
-        setHovered(true);
-        setEverHovered(true);
-      }}
-      onMouseLeave={() => setHovered(false)}
-      className="group relative text-left rounded-2xl overflow-hidden border border-glass-border bg-obsidian-2 transition-all duration-500 hover:border-chrome-lo hover:-translate-y-1 hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)] focus:outline-none focus-visible:border-chrome-mid"
+      className="group relative text-left rounded-2xl overflow-hidden border border-glass-border bg-obsidian-2 transition-all duration-500 hover:border-chrome-lo hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-24px_rgba(0,0,0,0.9)] focus:outline-none focus-visible:border-chrome-mid"
     >
       {/* Browser chrome bar */}
       <div className="flex items-center gap-3 px-4 h-9 border-b border-glass-border bg-obsidian-3/60">
@@ -158,17 +173,21 @@ function ProjectCard({
         >
           {hostOf(project.demo)}
         </span>
+        <span className="flex items-center gap-1.5 text-[9px] tracking-wider uppercase text-chrome-mid/70" style={{ fontFamily: "var(--font-mono)" }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
+          Live
+        </span>
       </div>
 
-      {/* Preview area */}
+      {/* Preview area — live site always rendered */}
       <div
         ref={wrapRef}
         className="relative aspect-[16/10] overflow-hidden bg-obsidian-3"
       >
-        {/* Poster (default state) */}
+        {/* Loading poster — fades out when the live site paints */}
         <div
-          className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-500 ${
-            hovered ? "opacity-0" : "opacity-100"
+          className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-700 ${
+            loaded ? "opacity-0" : "opacity-100"
           }`}
           style={{
             background:
@@ -181,32 +200,31 @@ function ProjectCard({
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <div>
-            <h3 className="display-heading text-xl text-chrome-hi mb-1">
-              {project.title}
-            </h3>
-            <p className="text-muted text-xs">{project.tags.slice(0, 3).join(" · ")}</p>
+          <div className="flex items-center gap-2 text-muted text-xs">
+            <span className="w-4 h-4 border border-chrome-lo border-t-chrome-mid rounded-full animate-spin" />
+            Loading preview…
           </div>
         </div>
 
-        {/* Live preview (mounts on first hover, stays mounted) */}
-        {everHovered && (
+        {/* Live preview — mounts when near viewport, stays visible */}
+        {inView && (
           <iframe
             src={project.demo}
             title={`${project.title} live preview`}
             loading="lazy"
             referrerPolicy="no-referrer"
+            onLoad={() => setLoaded(true)}
             style={iframeStyle}
             className={`absolute inset-0 transition-opacity duration-700 ${
-              hovered ? "opacity-100" : "opacity-0"
+              loaded ? "opacity-100" : "opacity-0"
             }`}
           />
         )}
 
-        {/* Hover CTA */}
-        <div className="absolute inset-0 flex items-end justify-end p-4 pointer-events-none">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-chrome-hi text-obsidian text-xs font-semibold opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-            View project
+        {/* Hover scrim + CTA */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-chrome-hi text-obsidian text-xs font-semibold opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
+            Explore project
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H8M17 7v9" />
             </svg>
@@ -408,8 +426,9 @@ export default function Projects() {
             Selected Work
           </h2>
           <p className="text-silver text-lg max-w-2xl mb-14">
-            Real products, shipped and live. Hover any card for a live preview —
-            click to explore the full site inside the page.
+            Real products, shipped and live. Every card is a real-time preview of
+            the site — click any one to explore the full experience inside the
+            page.
           </p>
         </Reveal>
 
