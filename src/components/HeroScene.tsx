@@ -23,7 +23,7 @@ function FallbackModel() {
   return (
     <mesh ref={meshRef}>
       <torusKnotGeometry args={[1.2, 0.35, 128, 32]} />
-      <meshStandardMaterial color="#4FE6FF" metalness={0.9} roughness={0.1} wireframe />
+      <meshStandardMaterial color="#C3C7D4" metalness={0.9} roughness={0.1} wireframe />
     </mesh>
   );
 }
@@ -144,10 +144,11 @@ function HeroModel({ progressRef }: { progressRef: ProgressRef }) {
       -center.z * scaleFactor + b3 * 0.4
     );
 
-    // scroll drives rotation; mouse + idle layered on top
+    // scroll drives rotation; mouse + idle layered on top. Baseline +PI on Y
+    // flips the model 180° so the "back" faces the camera by default.
     groupRef.current.rotation.set(
       my * 0.06 + Math.sin(t * 0.4) * 0.02 + b3 * 0.12,
-      mx * 0.12 + Math.sin(t * 0.3) * 0.04 + rot * Math.PI * 0.9,
+      Math.PI + mx * 0.12 + Math.sin(t * 0.3) * 0.04 + rot * Math.PI * 0.9,
       0
     );
   });
@@ -177,14 +178,14 @@ function AccentLights({ progressRef }: { progressRef: ProgressRef }) {
     <>
       <pointLight
         ref={cyanRef}
-        color="#4FE6FF"
+        color="#ffffff"
         intensity={0.5}
         distance={12}
         decay={2}
       />
       <pointLight
         position={[-2, -2, 2]}
-        color="#4FE6FF"
+        color="#f0f0f6"
         intensity={0.12}
         distance={8}
         decay={2}

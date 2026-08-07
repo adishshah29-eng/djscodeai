@@ -141,7 +141,7 @@ export default function Events() {
                   {event.status === "open" && (
                     <a
                       href="#contact"
-                      className="inline-flex items-center gap-2 mt-6 px-6 py-2.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm transition-all duration-300 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(79,230,255,0.12)]"
+                      className="inline-flex items-center gap-2 mt-6 px-6 py-2.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm transition-all duration-300 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(238,240,246,0.12)]"
                     >
                       Register Now
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

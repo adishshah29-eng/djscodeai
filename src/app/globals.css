@@ -5,15 +5,16 @@
   --obsidian: #000000;
   --obsidian-2: #060607;
   --obsidian-3: #0B0B0D;
-  --chrome-hi: #F6F7FB;
-  --chrome-mid: #C3C7D4;
-  --chrome-lo: #41434D;
-  --silver-text: #CFD2DB;
-  --muted: #7F8391;
-  --accent-cyan: #4FE6FF;
-  --accent-cyan-dim: rgba(79, 230, 255, 0.15);
-  --accent-cyan-glow: rgba(79, 230, 255, 0.4);
-  --glass-border: rgba(195, 199, 212, 0.08);
+  --chrome-hi: #FAFBFE;
+  --chrome-mid: #D2D5DE;
+  --chrome-lo: #4A4C57;
+  --silver-text: #DEE1E9;
+  --muted: #A2A7B4;
+  /* monochrome accent — bright platinum instead of cyan */
+  --accent-cyan: #EEF0F6;
+  --accent-cyan-dim: rgba(238, 240, 246, 0.12);
+  --accent-cyan-glow: rgba(238, 240, 246, 0.32);
+  --glass-border: rgba(195, 199, 212, 0.1);
   --glass-bg: rgba(10, 10, 12, 0.85);
   --glass-bg-hover: rgba(16, 16, 19, 0.95);
   --grid-line: rgba(195, 199, 212, 0.04);
@@ -113,6 +114,17 @@ body {
   color: var(--chrome-hi);
 }
 
+/* ─── MODAL ANIMATIONS ─── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 /* ─── CHROME TEXT ─── */
 .chrome-text {
   background: linear-gradient(
@@ -197,10 +209,10 @@ body {
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 8px var(--accent-cyan-dim), 0 0 20px rgba(79, 230, 255, 0.08);
+    box-shadow: 0 0 8px var(--accent-cyan-dim), 0 0 20px rgba(238, 240, 246, 0.08);
   }
   50% {
-    box-shadow: 0 0 16px var(--accent-cyan-glow), 0 0 40px rgba(79, 230, 255, 0.15);
+    box-shadow: 0 0 16px var(--accent-cyan-glow), 0 0 40px rgba(238, 240, 246, 0.15);
   }
 }
 

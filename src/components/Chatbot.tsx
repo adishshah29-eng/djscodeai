@@ -28,7 +28,7 @@ const QA: QA[] = [
         projects, hackathons, and mentorship.
       </>
     ),
-    followUps: ["join", "events", "team"],
+    followUps: ["join", "events", "projects"],
   },
   {
     id: "join",
@@ -68,35 +68,23 @@ const QA: QA[] = [
     question: "What projects are you working on?",
     answer: (
       <>
-        Currently: <strong className="text-chrome-hi">Deep Generative Models</strong>{" "}
-        (GANs / VAEs / Diffusion in PyTorch), FinteX financial analysis, a
-        voice-driven multi-agent finance assistant, MindCompanion mental-health
-        AI, ACAF affective analysis, and paper reproductions.
+        A range of production web apps and AI experiments — real estate landing
+        pages, CRM dashboards, an AI resume builder, 3D interior walkthroughs,
+        and marketplace apps. Head to the{" "}
+        <strong className="text-chrome-hi">Projects</strong> section for live
+        previews.
       </>
     ),
-    followUps: ["tech", "join", "team"],
-  },
-  {
-    id: "team",
-    question: "Who leads the club?",
-    answer: (
-      <>
-        <strong className="text-chrome-hi">Krishil Parikh</strong> (President),
-        Krisha Maisheri (VP), Rishee Panchal (Secretary), Deep Mehta (Admin).
-        Faculty guidance from Dr. Aruna Gawade (HOD, AI&amp;ML). The full team
-        of 17 is on the Team page.
-      </>
-    ),
-    followUps: ["what", "join", "contact"],
+    followUps: ["tech", "join", "contact"],
   },
   {
     id: "tech",
     question: "What technologies do you use?",
     answer: (
       <>
-        <strong className="text-chrome-hi">PyTorch</strong>, TensorFlow, Python,
-        Deep Learning, NLP, Generative AI, LLMs, multi-agent frameworks, and
-        full-stack for AI-integrated products.
+        <strong className="text-chrome-hi">Next.js</strong>, React, TypeScript,
+        Tailwind, three.js, and a stack of Python / PyTorch for the AI side —
+        Deep Learning, NLP, Generative AI, and LLM tooling.
       </>
     ),
     followUps: ["projects", "events", "join"],
@@ -234,7 +222,7 @@ export default function Chatbot() {
             pulseHint && !open ? "animate-ping" : ""
           }`}
         />
-        <span className="relative flex items-center justify-center w-14 h-14 rounded-full bg-obsidian-2 border border-accent/40 text-accent shadow-[0_0_24px_rgba(79,230,255,0.25)] transition-transform duration-300 group-hover:scale-105 group-active:scale-95">
+        <span className="relative flex items-center justify-center w-14 h-14 rounded-full bg-obsidian-2 border border-accent/40 text-accent shadow-[0_0_24px_rgba(238,240,246,0.2)] transition-transform duration-300 group-hover:scale-105 group-active:scale-95">
           {open ? (
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

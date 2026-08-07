@@ -109,21 +109,17 @@ export default function Hero() {
 
         {/* Text layer 1 — centered, then slides left */}
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-6">
-          <div ref={l1Ref} className="text-center lg:text-left max-w-xl">
+          <div ref={l1Ref} className="text-center lg:text-left max-w-xl lg:max-w-none">
             <p className="label-caps mb-5 text-accent tracking-[0.25em]">
               DJ Sanghvi College of Engineering
             </p>
-            <h1 className="display-heading text-6xl md:text-8xl lg:text-9xl chrome-text-animated leading-[0.92]">
+            <h1 className="display-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl chrome-text-animated leading-[0.92] whitespace-nowrap">
               {/* Full brand descriptor for search engines & screen readers */}
               <span className="sr-only">
                 DJS CodeAI — the AI &amp; ML club of DJ Sanghvi College of
                 Engineering, Mumbai.
               </span>
-              <span aria-hidden="true">
-                DJS
-                <br />
-                CodeAI
-              </span>
+              <span aria-hidden="true">DJS CODEAI</span>
             </h1>
             <p className="text-muted text-base md:text-lg mt-6">
               Fostering innovation in Artificial Intelligence &amp; Machine
@@ -166,7 +162,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pointer-events-auto">
               <a
                 href="#projects"
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium tracking-wide transition-all duration-300 hover:bg-accent/20 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(79,230,255,0.15)]"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium tracking-wide transition-all duration-300 hover:bg-accent/20 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(238,240,246,0.15)]"
               >
                 Explore Projects
               </a>

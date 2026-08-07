@@ -32,7 +32,7 @@ export default async function OpengraphImage() {
             fontSize: 22,
             letterSpacing: 4,
             textTransform: "uppercase",
-            color: "#4FE6FF",
+            color: "#EEF0F6",
           }}
         >
           <div
@@ -40,8 +40,8 @@ export default async function OpengraphImage() {
               width: 10,
               height: 10,
               borderRadius: 999,
-              background: "#4FE6FF",
-              boxShadow: "0 0 24px #4FE6FF",
+              background: "#EEF0F6",
+              boxShadow: "0 0 24px #EEF0F6",
             }}
           />
           DJ Sanghvi College of Engineering

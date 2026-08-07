@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback } from "react";
 const NAV_ITEMS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Team", href: "#team" },
   { label: "Projects", href: "#projects" },
   { label: "Events", href: "#events" },
   { label: "Contact", href: "#contact" },
@@ -106,7 +105,7 @@ export default function Navbar() {
             </a>
             <a
               href="/member/login"
-              className="px-4 py-1.5 text-sm font-medium text-black bg-accent hover:bg-accent/90 rounded-full transition-colors shadow-[0_0_15px_rgba(79,230,255,0.3)]"
+              className="px-4 py-1.5 text-sm font-medium text-black bg-accent hover:bg-accent/90 rounded-full transition-colors shadow-[0_0_15px_rgba(238,240,246,0.25)]"
             >
               Member
             </a>
