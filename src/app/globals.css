@@ -228,18 +228,18 @@ body {
 
 /* ─── SECTION UTILITIES ─── */
 .section-padding {
-  padding: 5rem 1.5rem;
+  padding: 3rem 1.5rem;
 }
 
 @media (min-width: 768px) {
   .section-padding {
-    padding: 6rem 2rem;
+    padding: 4rem 2rem;
   }
 }
 
 @media (min-width: 1280px) {
   .section-padding {
-    padding: 7rem 2rem;
+    padding: 4.5rem 2rem;
   }
 }
 

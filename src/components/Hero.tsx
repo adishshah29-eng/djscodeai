@@ -119,21 +119,12 @@ export default function Hero() {
         ref={stageRef}
         className="hero-stage h-[100svh] w-full relative overflow-hidden flex items-center justify-center"
       >
-        {/* 3D canvas */}
-        <div className="absolute inset-0 z-0">
+        {/* 3D canvas — hidden on mobile to prioritize legibility and performance */}
+        <div className="absolute inset-0 z-0 hidden lg:block">
           <HeroScene progressRef={progressRef} />
         </div>
 
-        {/* Mobile/tablet readability scrim — model sits behind centered text */}
-        <div
-          className="absolute inset-0 z-[5] pointer-events-none lg:hidden"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(10,10,20,0.85) 0%, rgba(10,10,20,0.6) 45%, rgba(10,10,20,0) 80%)",
-            backdropFilter: "blur(2px)",
-            WebkitBackdropFilter: "blur(2px)",
-          }}
-        />
+
 
         {/* Text layer 1 — centered, then slides left on scroll */}
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-4 sm:px-6">

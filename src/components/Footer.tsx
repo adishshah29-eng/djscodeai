@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
@@ -46,7 +48,7 @@ export default function Footer() {
   return (
     <footer className="relative">
       {/* ─── CTA block ─── */}
-      <section className="px-6 pt-24 md:pt-32 pb-16 md:pb-24 text-center">
+      <section className="px-6 pt-12 md:pt-16 pb-12 md:pb-16 text-center">
         <p
           className="label-caps mb-8 md:mb-10 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-mono)" }}
@@ -104,15 +106,20 @@ export default function Footer() {
       </section>
 
       {/* ─── Main footer grid ─── */}
-      <div className="px-6 pt-16 md:pt-24 pb-8">
+      <div className="px-6 pt-12 md:pt-16 pb-8">
         <div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-[1.4fr_1fr_1.3fr] gap-16 lg:gap-12 items-start">
           {/* Left — giant wordmark + tagline + socials */}
           <div>
-            <h3 className="display-heading chrome-text text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tighter mb-6">
-              DJS
-              <br className="lg:hidden" />
-              {" "}CodeAI
-            </h3>
+            <div className="mb-8 inline-block -ml-6 md:-ml-10">
+              <Image
+                src="/7.png"
+                alt="DJS CodeAI"
+                width={520}
+                height={200}
+                className="object-contain"
+                style={{ aspectRatio: "156/60", filter: "brightness(1.15) contrast(1.05)" }}
+              />
+            </div>
             <p className="text-muted text-sm md:text-base max-w-sm leading-relaxed mb-8">
               DJS CodeAI builds more than models.
               <br />

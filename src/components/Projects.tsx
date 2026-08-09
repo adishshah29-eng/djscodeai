@@ -16,6 +16,7 @@ interface Project {
   tags: string[];
   demo: string;
   github?: string;
+  allowPreview?: boolean;
 }
 
 const PROJECTS: Project[] = [
@@ -39,6 +40,7 @@ const PROJECTS: Project[] = [
       "An AI-powered resume builder that turns raw experience into ATS-friendly, recruiter-ready résumés with live editing and instant PDF export.",
     tags: ["AI", "LLM", "Next.js", "PDF"],
     demo: "https://resunova.io",
+    allowPreview: false,
   },
   {
     title: "Interior Designer",
@@ -53,6 +55,7 @@ const PROJECTS: Project[] = [
       "Website for Astra — event schedule, registrations, and sponsor showcase, built with a bold immersive visual language.",
     tags: ["Next.js", "Events", "Immersive"],
     demo: "https://djs-astra.vercel.app",
+    allowPreview: false,
   },
   {
     title: "Grece — Henna Studio",
@@ -132,7 +135,8 @@ function ProjectCard({
     return () => ro.disconnect();
   }, []);
 
-  // mount the live preview as the card approaches the viewport (no hover needed)
+  // Mount iframe when card is somewhat near the viewport.
+  // Using 600px instead of 1800px to avoid Chrome bugs with excessively large rootMargins on desktop.
   useEffect(() => {
     const el = cardRef.current;
     if (!el) return;
@@ -143,13 +147,21 @@ function ProjectCard({
           io.disconnect();
         }
       },
-      // large margin so previews begin loading well before the user
-      // scrolls into view, and are ready by the time they arrive
-      { rootMargin: "1800px" }
+      { rootMargin: "600px 0px" }
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  // Safety fallback: if onLoad doesn't fire within 4 seconds of mounting the iframe,
+  // forcefully show it anyway. This prevents infinite loading spinners if the browser 
+  // drops the event for scaled/lazy iframes on desktop.
+  useEffect(() => {
+    if (inView && !loaded) {
+      const timer = setTimeout(() => setLoaded(true), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [inView, loaded]);
 
   const iframeStyle: CSSProperties = {
     width: `${DESIGN_W}px`,
@@ -204,17 +216,22 @@ function ProjectCard({
             {String(index + 1).padStart(2, "0")}
           </span>
           <div className="flex items-center gap-2 text-muted text-xs">
-            <span className="w-4 h-4 border border-chrome-lo border-t-chrome-mid rounded-full animate-spin" />
-            Loading preview…
+            {project.allowPreview === false ? (
+              <>Preview unavailable — click to open live</>
+            ) : (
+              <>
+                <span className="w-4 h-4 border border-chrome-lo border-t-chrome-mid rounded-full animate-spin" />
+                Loading preview…
+              </>
+            )}
           </div>
         </div>
 
-        {/* Live preview — mounts when near viewport, stays visible */}
-        {inView && (
+        {/* Live preview — Manual lazy loading via inView */}
+        {inView && project.allowPreview !== false && (
           <iframe
             src={project.demo}
             title={`${project.title} live preview`}
-            loading="lazy"
             referrerPolicy="no-referrer"
             onLoad={() => setLoaded(true)}
             style={iframeStyle}
@@ -350,13 +367,13 @@ function ProjectModal({
 
         {/* Live site */}
         <div className="relative flex-1 bg-obsidian-3">
-          {!loaded && !blocked && (
+          {!loaded && !blocked && project.allowPreview !== false && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-8 h-8 border border-chrome-lo border-t-chrome-mid rounded-full animate-spin" />
             </div>
           )}
 
-          {blocked ? (
+          {blocked || project.allowPreview === false ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 gap-4">
               <p className="text-chrome-mid text-sm max-w-sm">
                 This site blocks embedding for security. Open it in a new tab to

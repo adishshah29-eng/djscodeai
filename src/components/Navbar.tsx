@@ -77,11 +77,11 @@ export default function Navbar() {
           <Image
             src="/7.png"
             alt="DJS CodeAI"
-            width={120}
-            height={46}
+            width={156}
+            height={60}
             priority
             className="object-contain"
-            style={{ aspectRatio: "120/46", filter: "brightness(1.15) contrast(1.05)" }}
+            style={{ aspectRatio: "156/60", filter: "brightness(1.15) contrast(1.05)" }}
           />
         </a>
 
