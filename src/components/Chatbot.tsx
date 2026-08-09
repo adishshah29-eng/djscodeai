@@ -28,7 +28,7 @@ const QA: QA[] = [
         projects, hackathons, and mentorship.
       </>
     ),
-    followUps: ["join", "events", "projects"],
+    followUps: ["join", "events", "team"],
   },
   {
     id: "join",
@@ -75,7 +75,20 @@ const QA: QA[] = [
         previews.
       </>
     ),
-    followUps: ["tech", "join", "contact"],
+    followUps: ["tech", "join", "team"],
+  },
+  {
+    id: "team",
+    question: "Who leads the club?",
+    answer: (
+      <>
+        <strong className="text-chrome-hi">Krishil Parikh</strong> (President),
+        Krisha Maisheri (VP), Rishee Panchal (Secretary), Deep Mehta (Admin).
+        Faculty guidance from Dr. Aruna Gawade (HOD, AI&amp;ML). The full team
+        of 17 is on the Team page.
+      </>
+    ),
+    followUps: ["what", "join", "contact"],
   },
   {
     id: "tech",

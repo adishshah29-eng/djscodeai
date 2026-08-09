@@ -22,6 +22,32 @@ export default function Hero() {
   const l1Ref = useRef<HTMLDivElement>(null);
   const l2Ref = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
+
+  // Entrance on load — the very first thing a visitor sees shouldn't just
+  // snap into place. Independent of scroll (plays once on mount).
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = introRef.current;
+    if (!el) return;
+    const items = el.querySelectorAll("[data-intro]");
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 22, filter: "blur(10px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.12,
+          delay: 0.15,
+        }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -103,43 +129,53 @@ export default function Hero() {
           className="absolute inset-0 z-[5] pointer-events-none lg:hidden"
           style={{
             background:
-              "radial-gradient(circle at 50% 45%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 42%, transparent 72%)",
+              "linear-gradient(to bottom, rgba(10,10,20,0.85) 0%, rgba(10,10,20,0.6) 45%, rgba(10,10,20,0) 80%)",
+            backdropFilter: "blur(2px)",
+            WebkitBackdropFilter: "blur(2px)",
           }}
         />
 
-        {/* Text layer 1 — centered, then slides left */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-6">
-          <div ref={l1Ref} className="text-center lg:text-left max-w-xl lg:max-w-none">
-            <p className="label-caps mb-5 text-accent tracking-[0.25em]">
-              DJ Sanghvi College of Engineering
-            </p>
-            <h1 className="display-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl chrome-text-animated leading-[0.92] whitespace-nowrap">
-              {/* Full brand descriptor for search engines & screen readers */}
-              <span className="sr-only">
-                DJS CodeAI — the AI &amp; ML club of DJ Sanghvi College of
-                Engineering, Mumbai.
-              </span>
-              <span aria-hidden="true">DJS CODEAI</span>
-            </h1>
-            <p className="text-muted text-base md:text-lg mt-6">
-              Fostering innovation in Artificial Intelligence &amp; Machine
-              Learning
-            </p>
+        {/* Text layer 1 — centered, then slides left on scroll */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-4 sm:px-6">
+          <div ref={l1Ref} className="text-center w-full max-w-2xl">
+            <div ref={introRef}>
+              <p data-intro className="label-caps mb-5 text-accent tracking-[0.25em]">
+                DJ Sanghvi College of Engineering
+              </p>
+              <h1
+                data-intro
+                className="display-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl chrome-text-animated leading-[0.95] break-words"
+              >
+                {/* Full brand descriptor for search engines & screen readers */}
+                <span className="sr-only">
+                  DJS CodeAI — the AI &amp; ML club of DJ Sanghvi College of
+                  Engineering, Mumbai.
+                </span>
+                <span aria-hidden="true">DJS CODEAI</span>
+              </h1>
+              <p data-intro className="text-muted text-base md:text-lg mt-6">
+                Fostering innovation in Artificial Intelligence &amp; Machine
+                Learning
+              </p>
 
-            {/* CTAs — mobile only (desktop shows them in the philosophy beat) */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10 pointer-events-auto lg:hidden">
-              <a
-                href="#projects"
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium tracking-wide transition-all duration-300 active:bg-accent/20"
+              {/* CTAs — mobile only (desktop shows them in the philosophy beat) */}
+              <div
+                data-intro
+                className="flex flex-col sm:flex-row gap-4 justify-center mt-10 pointer-events-auto lg:hidden"
               >
-                Explore Projects
-              </a>
-              <a
-                href="#about"
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-glass-border text-chrome-mid text-sm font-medium tracking-wide transition-all duration-300 active:border-chrome-lo"
-              >
-                Learn More
-              </a>
+                <a
+                  href="#projects"
+                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium tracking-wide transition-all duration-300 active:bg-accent/20"
+                >
+                  Explore Projects
+                </a>
+                <a
+                  href="#about"
+                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-glass-border text-chrome-mid text-sm font-medium tracking-wide transition-all duration-300 active:border-chrome-lo"
+                >
+                  Learn More
+                </a>
+              </div>
             </div>
           </div>
         </div>

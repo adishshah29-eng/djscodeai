@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 
 const NAV_ITEMS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
+  { label: "Team", href: "#team" },
   { label: "Projects", href: "#projects" },
   { label: "Events", href: "#events" },
   { label: "Contact", href: "#contact" },
@@ -69,12 +71,18 @@ export default function Navbar() {
         {/* Logo */}
         <a
           href="#home"
-          className="flex items-center gap-3 group"
+          className="flex items-center gap-2 group"
           onClick={() => setMenuOpen(false)}
         >
-          <span className="chrome-text-animated display-heading text-lg md:text-xl tracking-tight">
-            DJS CodeAI
-          </span>
+          <Image
+            src="/7.png"
+            alt="DJS CodeAI"
+            width={120}
+            height={46}
+            priority
+            className="object-contain"
+            style={{ aspectRatio: "120/46", filter: "brightness(1.15) contrast(1.05)" }}
+          />
         </a>
 
         {/* Desktop nav */}
@@ -83,7 +91,7 @@ export default function Navbar() {
             <a
               key={item.href}
               href={item.href}
-              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+              className={`relative flex items-center min-h-[44px] px-4 text-sm font-medium transition-colors duration-300 ${
                 active === item.href.slice(1)
                   ? "text-accent"
                   : "text-muted hover:text-chrome-hi"

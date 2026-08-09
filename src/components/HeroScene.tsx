@@ -1,9 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, Environment, Lightformer } from "@react-three/drei";
-
-const MODEL_URL = "/hero3Dmodel-opt.glb";
+import { useGLTF, Environment } from "@react-three/drei";
 import { useRef, useMemo, useState, useEffect, Suspense, Component, type ReactNode } from "react";
 import * as THREE from "three";
 
@@ -80,7 +78,7 @@ function useMouseParallax() {
 
 function HeroModel({ progressRef }: { progressRef: ProgressRef }) {
   const groupRef = useRef<THREE.Group>(null!);
-  const { scene } = useGLTF(MODEL_URL, true);
+  const { scene } = useGLTF("/hero3Dmodel.glb");
   const mouse = useMouseParallax();
   const view = useRef({ isDesktop: true, fit: 1 });
 
@@ -139,10 +137,13 @@ function HeroModel({ progressRef }: { progressRef: ProgressRef }) {
 
     // slide to the right (desktop split only)
     const targetX = (view.current.isDesktop ? 2.0 : 0) * toRight;
+    
+    // Shift model down on mobile so it doesn't fight the centered text
+    const targetY = view.current.isDesktop ? 0 : -0.9;
 
     groupRef.current.position.set(
       -center.x * scaleFactor + targetX + Math.sin(t * 0.25) * 0.03,
-      -center.y * scaleFactor + Math.sin(t * 0.6) * 0.06,
+      -center.y * scaleFactor + targetY + Math.sin(t * 0.6) * 0.06,
       -center.z * scaleFactor + b3 * 0.4
     );
 
@@ -200,44 +201,11 @@ function SceneContent({ progressRef }: { progressRef: ProgressRef }) {
   return (
     <>
       <ClearColor />
-
-      {/* Procedural studio environment — reflections without any CDN HDRI fetch */}
-      <Environment resolution={256} environmentIntensity={1.3}>
-        <Lightformer
-          form="rect"
-          intensity={2}
-          color="#ffffff"
-          position={[0, 4, 3]}
-          scale={[8, 4, 1]}
-        />
-        <Lightformer
-          form="rect"
-          intensity={1.2}
-          color="#eef0f6"
-          position={[-5, 1, 2]}
-          rotation={[0, Math.PI / 4, 0]}
-          scale={[4, 6, 1]}
-        />
-        <Lightformer
-          form="rect"
-          intensity={1}
-          color="#cfd4e2"
-          position={[5, 0, 2]}
-          rotation={[0, -Math.PI / 4, 0]}
-          scale={[4, 6, 1]}
-        />
-        <Lightformer
-          form="ring"
-          intensity={1.4}
-          color="#ffffff"
-          position={[0, -2, 4]}
-          scale={[3, 3, 1]}
-        />
-      </Environment>
+      <Environment preset="studio" background={false} environmentIntensity={1.4} />
 
       <ambientLight intensity={0.12} />
-      <directionalLight position={[5, 10, 7]} intensity={1.1} color="#f4f5fb" />
-      <directionalLight position={[-5, -3, -5]} intensity={0.3} color="#d6dae6" />
+      <directionalLight position={[5, 10, 7]} intensity={1.1} color="#f0f0ff" />
+      <directionalLight position={[-5, -3, -5]} intensity={0.3} color="#8ab4f8" />
       <hemisphereLight args={["#d0d4e8", "#0a0a14", 0.25]} />
       <AccentLights progressRef={progressRef} />
 
@@ -289,12 +257,12 @@ export default function HeroScene({
           camera={{ position: [0, 0, 6], fov: 42 }}
           gl={{
             alpha: true,
-            antialias: true,
+            antialias: typeof window !== 'undefined' ? window.innerWidth >= 768 : true,
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.05,
             powerPreference: "high-performance",
           }}
-          dpr={1}
+          dpr={[1, 1.5]}
           frameloop={inView ? "always" : "never"}
           style={{ background: "transparent" }}
         >
@@ -305,4 +273,4 @@ export default function HeroScene({
   );
 }
 
-useGLTF.preload(MODEL_URL, true);
+useGLTF.preload("/hero3Dmodel.glb");

@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import Reveal from "./Reveal";
+import SplitReveal from "./SplitReveal";
 
 export default function Contact() {
   const [sending, setSending] = useState(false);
@@ -40,11 +41,11 @@ export default function Contact() {
         <Reveal stagger={0.15} className="grid lg:grid-cols-2 gap-16">
           {/* Left — info */}
           <div>
-            <p className="label-caps mb-4 text-accent">Contact</p>
-            <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
+            <p className="section-label">( Contact )</p>
+            <h2 className="section-heading mb-6">
               Get in Touch
             </h2>
-            <p className="text-muted text-lg mb-12 leading-relaxed">
+            <p className="section-subtext mb-12">
               Have a question, want to collaborate, or interested in joining?
               We&apos;d love to hear from you.
             </p>
@@ -181,7 +182,7 @@ function FormField({
         name={name}
         type={type}
         placeholder={placeholder}
-        className="w-full bg-obsidian-3 border border-glass-border rounded-xl px-4 py-3 text-chrome-hi text-base md:text-sm placeholder-muted/50 transition-all duration-300 focus:outline-none focus:border-chrome-lo focus:ring-1 focus:ring-chrome-lo/30"
+        className="w-full bg-obsidian-3 border border-glass-border rounded-xl px-4 py-3 text-chrome-hi text-base md:text-sm placeholder-muted/50 input-focus"
         required
       />
     </div>
@@ -206,7 +207,7 @@ function ContactDetail({
       rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
       className="flex items-start gap-4 group"
     >
-      <div className="w-10 h-10 rounded-lg bg-obsidian-2 border border-glass-border flex items-center justify-center text-muted group-hover:text-accent transition-colors shrink-0">
+      <div className="card-shell w-10 h-10 flex items-center justify-center text-muted group-hover:text-accent shrink-0">
         {icon}
       </div>
       <div>

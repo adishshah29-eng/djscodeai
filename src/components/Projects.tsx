@@ -8,6 +8,7 @@ import {
   type CSSProperties,
 } from "react";
 import Reveal from "./Reveal";
+import SplitReveal from "./SplitReveal";
 
 interface Project {
   title: string;
@@ -142,7 +143,9 @@ function ProjectCard({
           io.disconnect();
         }
       },
-      { rootMargin: "400px" }
+      // large margin so previews begin loading well before the user
+      // scrolls into view, and are ready by the time they arrive
+      { rootMargin: "1800px" }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -162,7 +165,7 @@ function ProjectCard({
       ref={cardRef}
       type="button"
       onClick={onOpen}
-      className="group relative text-left rounded-2xl overflow-hidden border border-glass-border bg-obsidian-2 transition-all duration-500 hover:border-chrome-lo hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-24px_rgba(0,0,0,0.9)] focus:outline-none focus-visible:border-chrome-mid"
+      className="card-shell group relative text-left overflow-hidden min-h-[240px] flex flex-col transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-24px_rgba(0,0,0,0.9)] focus:outline-none focus-visible:border-chrome-mid"
     >
       {/* Browser chrome bar */}
       <div className="flex items-center gap-3 px-4 h-9 border-b border-glass-border bg-obsidian-3/60">
@@ -191,7 +194,7 @@ function ProjectCard({
           }`}
           style={{
             background:
-              "linear-gradient(150deg, #16171d 0%, #0b0b0e 55%, #050506 100%)",
+              "linear-gradient(150deg, #1c1712 0%, #100c08 55%, #070503 100%)",
           }}
         >
           <span
@@ -253,7 +256,7 @@ function ProjectCard({
           {project.tags.map((t) => (
             <span
               key={t}
-              className="px-2 py-0.5 rounded-full text-[10px] border border-chrome-lo/40 text-muted"
+              className="px-2.5 py-0.5 rounded-full text-[11px] font-medium tracking-wider border border-chrome-lo/40 text-muted"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               {t}
@@ -421,11 +424,11 @@ export default function Projects() {
     <section id="projects" className="section-padding relative">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p className="label-caps mb-4 text-accent">Projects</p>
-          <h2 className="display-heading text-3xl md:text-5xl chrome-text mb-6">
+          <p className="section-label">( Projects )</p>
+          <h2 className="section-heading mb-6">
             Selected Work
           </h2>
-          <p className="text-silver text-lg max-w-2xl mb-14">
+          <p className="section-subtext max-w-2xl mb-14">
             Real products, shipped and live. Every card is a real-time preview of
             the site — click any one to explore the full experience inside the
             page.

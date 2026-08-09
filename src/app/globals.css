@@ -2,9 +2,10 @@
 
 /* ─── DESIGN TOKENS ─── */
 :root {
-  --obsidian: #000000;
-  --obsidian-2: #060607;
-  --obsidian-3: #0B0B0D;
+  /* warm obsidian — brown-black base so silver reads luxe/editorial */
+  --obsidian: #0B0907;
+  --obsidian-2: #100D0A;
+  --obsidian-3: #17130E;
   --chrome-hi: #FAFBFE;
   --chrome-mid: #D2D5DE;
   --chrome-lo: #4A4C57;
@@ -102,7 +103,16 @@ html.lenis body {
 }
 
 body {
-  background: var(--obsidian);
+  /* warm base + a soft ember glow up top (behind the hero), fading to base.
+     Non-fixed so there's no scroll-repaint cost. */
+  background-color: var(--obsidian);
+  background-image: radial-gradient(
+    120% 90% at 50% -5%,
+    rgba(86, 62, 38, 0.22) 0%,
+    rgba(34, 24, 15, 0.08) 36%,
+    transparent 66%
+  );
+  background-repeat: no-repeat;
   color: var(--silver-text);
   font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -218,18 +228,18 @@ body {
 
 /* ─── SECTION UTILITIES ─── */
 .section-padding {
-  padding: 6rem 1.5rem;
+  padding: 5rem 1.5rem;
 }
 
 @media (min-width: 768px) {
   .section-padding {
-    padding: 8rem 2rem;
+    padding: 6rem 2rem;
   }
 }
 
 @media (min-width: 1280px) {
   .section-padding {
-    padding: 10rem 2rem;
+    padding: 7rem 2rem;
   }
 }
 
@@ -263,6 +273,54 @@ body {
     transparent 100%
   );
 }
+
+/* ─── SHARED COMPONENT UTILITIES ─── */
+.section-heading {
+  @apply text-3xl md:text-5xl;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  background: linear-gradient(
+    135deg,
+    var(--chrome-lo) 0%,
+    var(--chrome-mid) 20%,
+    var(--chrome-hi) 45%,
+    var(--chrome-hi) 55%,
+    var(--chrome-mid) 80%,
+    var(--chrome-lo) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.section-subtext {
+  @apply text-muted text-base md:text-lg leading-relaxed;
+}
+
+.section-label {
+  @apply mb-4 text-accent;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.card-shell {
+  @apply bg-obsidian-2 border border-glass-border rounded-xl transition-colors duration-300;
+}
+
+.card-shell:hover {
+  @apply bg-obsidian-3 border-chrome-lo/20;
+}
+
+.input-focus {
+  @apply focus:outline-none focus:ring-1 focus:ring-accent/30 focus:border-chrome-lo transition-all duration-200;
+}
+
 
 /* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar {
