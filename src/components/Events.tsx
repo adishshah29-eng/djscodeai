@@ -17,14 +17,22 @@ interface EventItem {
 
 const EVENTS_2026: EventItem[] = [
   {
+    title: "Prompt to Prototype",
+    date: "SEP 09, 2026",
+    time: "11:00 AM",
+    location: "DJSCE Campus",
+    description:
+      "AI/ML Hackathon — Exclusively for Second Years. Your first hackathon starts here. A beginner-friendly AI/ML hackathon where participants take an idea from prompt to working prototype — no expertise needed, just bring an idea and start building.",
+    status: "closed",
+  },
+  {
     title: "Neurovate 2.0",
-    date: "COMING SOON",
-    time: "TBD",
+    date: "AUG 12, 2026",
+    time: "12:30 PM",
     location: "DJSCE Campus",
     description:
       "Our flagship hackathon returns. Build next-generation AI solutions, compete with the best minds, and push the boundaries of innovation.",
-    status: "open",
-    link: "https://docs.google.com/forms/d/e/1FAIpQLSeSlhhjurfooXe0z5BM1WDIPJhcgE3F_1ZRRJsfpEdmSsG1MQ/viewform"
+    status: "closed",
   }
 ];
 
