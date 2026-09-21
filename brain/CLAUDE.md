@@ -28,6 +28,9 @@ College club (DJS CodeAI) marketing + admin website. Next.js 16 (App Router, Tur
 - Expand/collapse accordions use CSS grid-rows trick (`grid-rows-[0fr]` / `grid-rows-[1fr]`) with `overflow-hidden`, not height animation libs.
 - "use client" only on components that need interactivity/state; data/layout files stay server components.
 
+## Current known state (check log.md for details/dates)
+- `src/components/Navbar.tsx`: Admin and Member nav buttons (desktop + mobile) are temporarily commented out, not deleted. Restore by uncommenting.
+
 ## Branch & commit policy (always follow, every session)
 - Work only on the current working branch. **Never** checkout, merge into, or push to `main`/`master` unless explicitly told to in that session.
 - All commits authored by the user only — no `Co-Authored-By: Claude` or Anthropic attribution in any commit message.
