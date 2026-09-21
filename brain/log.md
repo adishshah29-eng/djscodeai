@@ -4,6 +4,25 @@ Most recent entry on top.
 
 ---
 
+## 2026-09-22 (3)
+
+**Done:**
+- Fixed navbar logo (`src/components/Navbar.tsx`, source `public/7.png`) — it was rendering too small and washed-out/gray instead of crisp white.
+  - Diagnosed source file: native resolution 1080x1080px (not low-res — enlarging is safe, no blur risk).
+  - Diagnosed washout cause: the PNG's own artwork is a very low-contrast, faint off-white (visually confirmed by opening the file directly — logo is barely visible even at full size against white background), not a CSS-only sizing issue.
+  - First attempt: bumped render box to a forced square (`h-12 w-12 md:h-16 md:w-16`) with intrinsic size 168x168 and a mild `brightness(1.15) contrast(1.05)` filter. Insufficient — squashed the logo's real wide aspect ratio into a square (wasting most of the box on the transparent vertical padding in the source canvas) and the filter was too weak to fix the faint source pixels.
+  - Corrected fix: switched to `h-14 w-auto md:h-[4.5rem]` (auto width preserves the logo's true wide aspect ratio instead of forcing a square), intrinsic size set to full native `1080x1080`, and replaced the filter with `brightness(0) invert(1)` to force all opaque pixels to pure white regardless of the source's actual faint tone.
+  - Committed as `a2c3124` ("Increase navbar logo size and force crisp white rendering") and pushed to `origin/rudra` per user request.
+
+**Decisions:**
+- Chose a strong CSS filter (`brightness(0) invert(1)`) over asking for a re-exported high-contrast source asset — user confirmed this is fine since the logo is effectively monochrome (brain icon + wordmark, no color detail worth preserving). If the logo ever needs to show actual color/gradient detail, this filter approach will flatten that and a proper re-export would be needed instead.
+- `width`/`height` props on `next/image` now match the source's true native size (1080x1080) rather than an arbitrary smaller intrinsic size — lets Next.js pick appropriately-sized generated images rather than being told a size mismatched from the source.
+
+**Pending / not started:**
+- None outstanding for the logo as of this entry.
+
+---
+
 ## 2026-09-22 (2)
 
 **Done:**

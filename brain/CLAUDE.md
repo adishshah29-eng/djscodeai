@@ -30,6 +30,10 @@ College club (DJS CodeAI) marketing + admin website. Next.js 16 (App Router, Tur
 
 ## Current known state (check log.md for details/dates)
 - `src/components/Navbar.tsx`: Admin and Member nav buttons (desktop + mobile) are temporarily commented out, not deleted. Restore by uncommenting.
+- `src/components/Navbar.tsx`: logo (`public/7.png`) rendered with `brightness(0) invert(1)` filter to force pure white — the source PNG's own artwork is naturally low-contrast/faint, not pure white, so this filter is load-bearing. Removing it will bring back the washed-out look. Source is 1080x1080, high-res, safe to enlarge further if needed.
+
+## Working agreement
+- Update this file and `log.md` after every committed change in a session by default — don't wait to be asked.
 
 ## Branch & commit policy (always follow, every session)
 - Work only on the current working branch. **Never** checkout, merge into, or push to `main`/`master` unless explicitly told to in that session.
