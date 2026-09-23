@@ -34,15 +34,6 @@ const EVENTS_2026: EventItem[] = [
       "Our flagship hackathon returns. Build next-generation AI solutions, compete with the best minds, and push the boundaries of innovation.",
     status: "closed",
   },
-   {
-    title: "Prompt To Prototype",
-    date: "SEPT 9, 2026",
-    time: "10:00 AM - 6:00 PM",
-    location: "4th Floor, AIML Department, DJSCE",
-    description:
-      "A 6-hour AI/ML hackathon built for second-years to turn ideas into working prototypes—with expert mentorship, hands-on building, and a fast-paced hackathon experience from Prompt → Prototype.",
-    status: "closed",
-  }
 ];
 
 const EVENTS_2025: EventItem[] = [
