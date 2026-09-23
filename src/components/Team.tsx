@@ -60,6 +60,7 @@ const TEAM: TeamMember[] = [
   {
     name: "Saad Sayed",
     role: "Vice Chairperson - Tech",
+    image: "/team/saad.jpeg",
     category: "Tech",
     bio: "Deep Learning and NLP expertise",
 
@@ -72,14 +73,16 @@ const TEAM: TeamMember[] = [
   },
   {
     name: "Kavya Sajjit",
-    role: "Tech Mentor",
+    role: "AI Mentor",
     category: "Core",
+    image: "/team/kavyasj.jpeg",
     bio: "",
   },
   {
     name: "Abdul Qaddar",
     role: "Tech Mentor",
     category: "Core",
+    image: "/team/abdul.jpg",
     bio: "",
   },
   {
