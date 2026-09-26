@@ -26,6 +26,7 @@ const EVENTS_2026: EventItem[] = [
     status: "open",
     link: "https://docs.google.com/forms/d/e/1FAIpQLSeSlhhjurfooXe0z5BM1WDIPJhcgE3F_1ZRRJsfpEdmSsG1MQ/viewform"
   }
+
 ];
 
 const EVENTS_2025: EventItem[] = [
