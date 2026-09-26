@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Reveal from "./Reveal";
+import NextImage from "next/image";
 
 interface TeamMember {
   name: string;
@@ -11,6 +12,7 @@ interface TeamMember {
   github?: string;
   linkedin?: string;
   email?: string;
+  image?: string; // Optional image URL
 }
 
 type Category = "Faculty" | "Core" | "Tech" | "Events" | "Creatives";
@@ -18,117 +20,81 @@ type Category = "Faculty" | "Core" | "Tech" | "Events" | "Creatives";
 const TEAM: TeamMember[] = [
   // ─── FEATURED (always visible) ───
   {
-    name: "Krishil Parikh",
+    name: "Meet Dawda",
     role: "Chairperson",
     category: "Core",
+    image: "/team/meet.jpg",
     bio: "3+ years in Machine Learning research and development",
-    github: "Krishil-Parikh",
-    linkedin: "krishil-parikh-3ba06b287",
-    email: "krishil.prkh75@gmail.com",
   },
   {
-    name: "Krisha Maisheri",
-    role: "Vice Chairperson",
+    name: "Juee Shimpi",
+    role: "Vice Chairperson - Admin",
+    image: "/team/jueeshimpi.jpg",
     category: "Core",
     bio: "Deep learning and neural network architectures",
-    github: "krishamaisheri",
-    linkedin: "krisha-maisheri-a48782281",
-    email: "krisha.maisheri16@gmail.com",
+  
   },
   {
     name: "Dr. Aruna Gawade",
     role: "HOD — AI & ML",
     category: "Faculty",
     bio: "15+ years of experience in AI and Computer Science",
-    linkedin: "aruna-gawade-37349a272",
+    linkedin: "-gawade-37349a272",
     email: "hod.aiml@djsce.ac.in",
   },
   {
-    name: "Prof. Ragini Mishra",
+    name: "Prof. Purva",
     role: "Faculty Coordinator",
     category: "Faculty",
     bio: "Specialist in Machine Learning and Deep Learning",
-    email: "ragini.mishra@djsce.ac.in",
+
   },
 
   // ─── REST (in "View More") ───
   {
-    name: "Rishee Panchal",
+    name: "Suruchi",
     role: "Secretary",
     category: "Core",
     bio: "Full-stack development and AI system integration",
-    github: "risheeee",
-    linkedin: "rishee-panchal",
-    email: "rishrash2712@gmail.com",
   },
   {
-    name: "Deep Mehta",
-    role: "Admin",
-    category: "Core",
-    bio: "Finance and analytical tools development",
-    github: "DeepMehta561",
-    linkedin: "deep-mehta-b2b126253",
-    email: "deepmehta2005@gmail.com",
-  },
-  {
-    name: "Keyush Nisar",
-    role: "Tech — AI",
+    name: "Saad Sayed",
+    role: "Vice Chairperson - Tech",
+    image: "/team/saad.jpeg",
     category: "Tech",
     bio: "Deep Learning and NLP expertise",
-    github: "nisaral",
-    linkedin: "keyush-n-017a3a2b3",
-    email: "nisarkeyush3@gmail.com",
+
   },
   {
-    name: "Bhavya Goyal",
-    role: "Tech — AI",
-    category: "Tech",
-    bio: "NLP and Generative AI research",
-    github: "BhavyaGoyal777",
-    email: "bhavyagoyal702@gmail.com",
+    name: "Shreya Khanna",
+    role: "Tech Mentor",
+    category: "Core",
+    bio: "",
   },
   {
-    name: "Taitil Chheda",
-    role: "Tech — AI",
-    category: "Tech",
-    bio: "Machine Learning and Deep Learning pipelines",
-    github: "Taitilchheda",
-    email: "taitil@gmail.com",
+    name: "Kavya Sajjit",
+    role: "AI Mentor",
+    category: "Core",
+    image: "/team/kavyasj.jpeg",
+    bio: "",
   },
   {
-    name: "Rugved Kulkarni",
-    role: "Tech — AI",
-    category: "Tech",
-    bio: "Machine Learning model development",
-    github: "rugvedkulkarni30",
-    linkedin: "rugved-kulkarni-19649b2b5",
-    email: "kulkarni.rugved.m@gmail.com",
+    name: "Abdul Qaddar",
+    role: "Tech Mentor",
+    category: "Core",
+    image: "/team/abdul.jpg",
+    bio: "",
   },
   {
-    name: "Manav Gohil",
-    role: "Tech — Web Dev",
-    category: "Tech",
-    bio: "Full-stack development with AI integration",
-    github: "TheManavGohil",
-    linkedin: "manavgohil",
-    email: "gohilmanav2005@gmail.com",
-  },
-  {
-    name: "Manav Jobanputra",
+    name: "Sayli Kulkarni",
     role: "Project Head",
+    image: "/team/sayli.jpg",
     category: "Events",
     bio: "Communication and project leadership",
     email: "manav@djscodeai.com",
   },
   {
-    name: "Parv Siria",
-    role: "Project Head",
-    category: "Events",
-    bio: "Communication and project leadership",
-    email: "parv@djscodeai.com",
-  },
-  {
-    name: "Netra Sangani",
+    name: "Swaleha Shaikh",
     role: "Events Head",
     category: "Events",
     bio: "Event management and coordination",
@@ -137,25 +103,37 @@ const TEAM: TeamMember[] = [
     email: "netrasangani@gmail.com",
   },
   {
-    name: "Mitvi Dattani",
+    name: "Kavya Shah",
     role: "Events Head",
+    image: "/team/kavyashah.jpg",
     category: "Events",
     bio: "Event management and coordination",
   },
   {
-    name: "Jigar Gada",
-    role: "Marketing Head",
-    category: "Creatives",
+    name: "Adish Shah",
+    role: "Marketing and Outreach Head",
+    image: "/team/adish.jpg",
+    category: "Events",
     bio: "Marketing strategy and outreach",
   },
   {
-    name: "Vruddhi Zaveri",
+    name: "Manya Sanghvi",
+    role: "Marketing and Outreach Head",
+    category: "Events",
+    bio: "Marketing strategy and outreach",
+  },
+  {
+    name: "Tanishka Dhanudharmi",
     role: "Creatives Head",
     category: "Creatives",
     bio: "From algorithms to aesthetics — creativity is intelligence having fun",
-    github: "vruddhiZaveri",
-    linkedin: "vruddhi-zaveri-996a9a289",
-    email: "vruddhi.zaveri@gmail.com",
+    image: "/team/tanishka.jpg",
+  },
+   {
+    name: "Yash Poojari",
+    role: "Treasurer",
+    category: "Events",
+    bio: "Managing finances and budgeting for the team",
   },
 ];
 
@@ -255,99 +233,261 @@ export default function Team() {
       </div>
     </section>
   );
-}
+}function MemberCard({
+  member,
+  featured,
+}: {
+  member: TeamMember;
+  featured: boolean;
+}) {
+  const [showDetails, setShowDetails] = useState(false);
 
-function MemberCard({ member, featured }: { member: TeamMember; featured: boolean }) {
   const badge = getRoleBadge(member.role);
 
+  const initials = member.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
+
   return (
-    <div
-      className="bg-obsidian-2 p-6 group hover:bg-obsidian-3 transition-all duration-500 relative overflow-hidden"
-      style={featured ? { background: "var(--obsidian-3)" } : {}}
-    >
-      {featured && (
+    <>
+      {/* Member Card */}
+      <button
+        type="button"
+        onClick={() => setShowDetails(true)}
+        className="w-full text-left bg-obsidian-2 group relative overflow-hidden p-6 min-h-[390px] flex flex-col border border-glass-border transition-all duration-500 hover:bg-obsidian-3 hover:-translate-y-1 cursor-pointer"
+        style={featured ? { background: "var(--obsidian-3)" } : {}}
+        aria-label={`View details for ${member.name}`}
+      >
+        {/* Featured accent line */}
+        {featured && (
+          <div
+            className="absolute top-0 left-0 right-0 h-[2px]"
+            style={{ background: badge.text }}
+          />
+        )}
+
+        {/* Top row */}
+        <div className="flex items-center justify-between mb-5">
+          <span
+            className="text-[10px] tracking-[0.25em] text-muted"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            MEMBER
+          </span>
+
+          {featured && (
+            <span
+              className="text-[9px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full"
+              style={{
+                background: badge.bg,
+                color: badge.text,
+                border: `1px solid ${badge.border}`,
+                fontFamily: "var(--font-mono)",
+              }}
+            >
+              {member.role}
+            </span>
+          )}
+        </div>
+
+        {/* Member Image */}
+        <div className="w-full h-52 rounded-xl mb-6 bg-obsidian border border-glass-border overflow-hidden transition-all duration-500 group-hover:border-chrome-lo">
+          {member.image ? (
+            <NextImage
+              src={member.image}
+              alt={member.name}
+              width={500}
+              height={500}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="display-heading text-4xl text-chrome-lo group-hover:text-chrome-mid transition-colors">
+                {initials}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Name + Designation */}
+        <div className="mt-auto">
+          <h3 className="text-chrome-hi text-xl font-semibold tracking-tight leading-tight mb-3">
+            {member.name}
+          </h3>
+
+          <div
+            className="w-16 h-[2px] mb-3 transition-all duration-500 group-hover:w-24"
+            style={{ background: badge.text }}
+          />
+
+          <p
+            className="text-muted text-[10px] tracking-[0.18em] uppercase"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {member.role}
+          </p>
+
+          {/* Click hint */}
+          <div className="mt-5 flex items-center justify-between text-muted">
+            <span
+              className="text-[9px] tracking-[0.15em] uppercase"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              View details
+            </span>
+
+            <span
+              className="text-sm transition-transform duration-300 group-hover:translate-x-1"
+              style={{ color: badge.text }}
+            >
+              →
+            </span>
+          </div>
+        </div>
+      </button>
+
+      {/* Details Modal */}
+      {showDetails && (
         <div
-          className="absolute top-0 left-0 right-0 h-[3px]"
-          style={{ background: badge.text }}
-        />
-      )}
-      {/* Avatar */}
-      <div className="w-14 h-14 rounded-full mb-5 bg-obsidian border border-glass-border flex items-center justify-center overflow-hidden group-hover:border-chrome-lo transition-colors duration-500">
-        <span className="display-heading text-lg text-chrome-lo group-hover:text-chrome-mid transition-colors">
-          {member.name
-            .split(" ")
-            .map((n) => n[0])
-            .join("")}
-        </span>
-      </div>
-
-      {/* Featured badge for top-4 */}
-      {featured && (
-        <span
-          className="absolute top-4 right-4 text-[9px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-full"
-          style={{
-            background: badge.bg,
-            color: badge.text,
-            border: `1px solid ${badge.border}`,
-            fontFamily: "var(--font-mono)",
-          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          onClick={() => setShowDetails(false)}
         >
-          {member.role}
-        </span>
-      )}
+          <div
+            className="relative w-full max-w-lg bg-obsidian-2 border border-glass-border rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Accent */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[3px]"
+              style={{ background: badge.text }}
+            />
 
-      {/* Info */}
-      <h3 className="text-chrome-hi text-sm font-semibold mb-1">{member.name}</h3>
-      {!featured && (
-        <p
-          className="text-accent text-xs tracking-wider uppercase mb-2"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          {member.role}
-        </p>
-      )}
-      <p className="text-muted text-xs leading-relaxed mb-4">{member.bio}</p>
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => setShowDetails(false)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full border border-glass-border flex items-center justify-center text-muted hover:text-chrome-hi hover:border-chrome-lo transition-colors"
+              aria-label="Close member details"
+            >
+              ×
+            </button>
 
-      {/* Social links */}
-      <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        {member.github && (
-          <a
-            href={`https://github.com/${member.github}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted hover:text-chrome-hi transition-colors"
-            aria-label={`${member.name} GitHub`}
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-          </a>
-        )}
-        {member.linkedin && (
-          <a
-            href={`https://linkedin.com/in/${member.linkedin}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted hover:text-chrome-hi transition-colors"
-            aria-label={`${member.name} LinkedIn`}
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-          </a>
-        )}
-        {member.email && (
-          <a
-            href={`mailto:${member.email}`}
-            className="text-muted hover:text-chrome-hi transition-colors"
-            aria-label={`Email ${member.name}`}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          </a>
-        )}
-      </div>
-    </div>
+            <div className="p-7">
+              {/* Profile header */}
+              <div className="flex items-center gap-5 mb-7">
+                <div className="w-24 h-24 rounded-xl overflow-hidden bg-obsidian border border-glass-border flex-shrink-0">
+                  {member.image ? (
+                    <NextImage
+                      src={member.image}
+                      alt={member.name}
+                      width={96}
+                      height={96}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="display-heading text-2xl text-chrome-lo">
+                        {initials}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <span
+                    className="text-[9px] tracking-[0.18em] uppercase"
+                    style={{
+                      color: badge.text,
+                      fontFamily: "var(--font-mono)",
+                    }}
+                  >
+                    {member.role}
+                  </span>
+
+                  <h2 className="text-chrome-hi text-2xl font-semibold mt-2">
+                    {member.name}
+                  </h2>
+                </div>
+              </div>
+
+              {/* Bio */}
+              {member.bio && (
+                <div className="mb-7">
+                  <p
+                    className="text-[9px] tracking-[0.2em] uppercase text-muted mb-3"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    About
+                  </p>
+
+                  <p className="text-muted text-sm leading-relaxed">
+                    {member.bio}
+                  </p>
+                </div>
+              )}
+
+              {/* Social / Contact */}
+              {(member.github || member.linkedin || member.email) && (
+                <div className="pt-5 border-t border-glass-border">
+                  <p
+                    className="text-[9px] tracking-[0.2em] uppercase text-muted mb-4"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Connect
+                  </p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {member.github && (
+                      <a
+                        href={`https://github.com/${member.github}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-4 py-2 rounded-full border border-glass-border text-xs text-muted hover:text-chrome-hi hover:border-chrome-lo transition-colors"
+                      >
+                        GitHub
+                      </a>
+                    )}
+
+                    {member.linkedin && (
+                      <a
+                        href={`https://linkedin.com/in/${member.linkedin}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-4 py-2 rounded-full border border-glass-border text-xs text-muted hover:text-chrome-hi hover:border-chrome-lo transition-colors"
+                      >
+                        LinkedIn
+                      </a>
+                    )}
+
+                    {member.email && (
+                      <a
+                        href={`mailto:${member.email}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-4 py-2 rounded-full border border-glass-border text-xs text-muted hover:text-chrome-hi hover:border-chrome-lo transition-colors"
+                      >
+                        Email
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={() => setShowDetails(false)}
+                className="mt-7 w-full py-3 rounded-lg border border-glass-border text-xs tracking-wider uppercase text-muted hover:text-chrome-hi hover:border-chrome-lo transition-colors"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
