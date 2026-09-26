@@ -23,7 +23,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Dr. Aruna Gawade",
     photo:"/team/arunamam.jfif",
-
     role: "HOD — AI & ML",
     category: "Faculty",
     bio: "15+ years of experience in AI and Computer Science",
@@ -33,7 +32,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Prof. Purva Badhe",
     photo:"/team/purvamam.png",
-
     role: "Faculty Coordinator",
     category: "Faculty",
     bio: "Specialist in Machine Learning and Deep Learning",
@@ -52,7 +50,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Juee Shimpi",
     photo:"/team/juee.jpeg",
-
     role: "Vice Chairperson(Admin)",
     category: "Core",
     bio: "Deep learning and neural network architectures",
@@ -64,7 +61,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Saad Sayed",
     photo:"/team/saad.jpeg",
-
     role: "Vice Chairperson(Tech) & Tech — Web Dev",
     category: "Tech",
     bio: "Full-stack development with AI integration",
@@ -75,12 +71,11 @@ const TEAM: TeamMember[] = [
   {
     name: "Yash Poojari",
     photo:"/team/yash.jpeg",
-    
     role: "Treasurer",
     category: "Core",
-    bio: "",
+    bio: "Financial planning and resource management",
     github: "",
-    linkedin: "",
+    linkedin: "yash-poojari-8706y",
     email: "",
   },
    
@@ -88,7 +83,6 @@ const TEAM: TeamMember[] = [
 
     name: "Suruchi Makwana",
     photo:"/team/suruchi.jpeg",
-
     role: "Secretary",
     category: "Core",
     bio: "Full-stack development and AI system integration",
@@ -99,7 +93,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Shreya",
     photo:"/team/shreya.jpeg",
-
     role: "Tech — AI Mentor",
     category: "Tech",
     bio: "Deep Learning and NLP expertise",
@@ -110,7 +103,6 @@ const TEAM: TeamMember[] = [
 {
     name: "Kavya Sajjit",
     photo:"/team/kavyasajjit.jpeg",
-
     role: "Tech — AI Mentor",
     category: "Tech",
     bio: "NLP and Generative AI research",
@@ -121,10 +113,9 @@ const TEAM: TeamMember[] = [
   {
     name: "Abdulqadar Manasawala",
     photo:"/team/abdul.jpeg",
-
     role: "Tech - AI Research Mentor",
     category: "Tech",
-    bio: "",
+    bio: "AI research, experimentation and model development",
     github: "",
     linkedin: "superbrainy007",
     email: "",
@@ -135,7 +126,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Sayli Kulkarni",
     photo:"/team/sayli.jpeg",
-
     role: "Project Head",
     category: "Events",
     bio: "Communication and project leadership",
@@ -145,7 +135,6 @@ const TEAM: TeamMember[] = [
   {
     name: "Kavya Shah",
     photo:"/team/kavyashah.jpeg",
-
     role: "Events Head",
     category: "Events",
     bio: "Event management and coordination",
@@ -155,18 +144,14 @@ const TEAM: TeamMember[] = [
   {
     name: "Swaleha Shaikh",
     photo:"/team/swaleha.jpeg",
-
     role: "Events Head",
     category: "Events",
     linkedin: "swaleha-shaikh-7450aa34b",
-
-
     bio: "Event management and coordination",
   },
   {
     name: "Adish Shah",
     photo:"/team/adish.jpeg",
-
     role: "Marketing Head",
     category: "Creatives",
     linkedin: "adishshah29",
@@ -176,17 +161,14 @@ const TEAM: TeamMember[] = [
   {
     name: "Manya Sanghvi",
     photo:"/team/manya.jpeg",
-
     role: "Marketing Head",
     category: "Creatives",
     linkedin: "manya-sanghvi-9b032b255",
-
     bio: "Marketing strategy and outreach",
   },
   {
     name: "Tanishka",
     photo:"/team/tanishka.jpeg",
-
     role: "Creatives Head",
     category: "Creatives",
     bio: "From algorithms to aesthetics — creativity is intelligence having fun",
@@ -196,17 +178,6 @@ const TEAM: TeamMember[] = [
   },
 ];
 
-
-// Meet dawda - chair person 
-// Juee shimpi - vice chair person
-// Saad (surname dk) - vice chair person (tech)
-// Suruchi makwana - secretary
-
-// Adish Shah , manya sanghvi - marketing and outreach head
-// Kavya shah , swaleha shaikh - events head 
-// Sayli Kulkarni - projects head 
-
-// Shreya , abdul , kavya sajjit - tech ai and research mentors
 
 // First 4 are featured (always visible)
 const FEATURED = TEAM.slice(0, 4);
