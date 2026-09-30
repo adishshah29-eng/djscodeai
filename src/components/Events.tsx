@@ -43,23 +43,24 @@ const EVENTS: EventItem[] = [
     section: "past",
     moments: [
       {
-        image: "/Events/neurovate2.0/m1.jpeg",
+        image: "/events/neurovate2.0/m1.jpeg",
         caption: "Kicked off with an overview of ML and web development.\nWalked through past projects built by the club.",
       },
       {
-        image: "/Events/neurovate2.0/m2.jpeg",
+        image: "/events/neurovate2.0/m2.jpeg",
         caption: "A packed room tuned in from the start.\nQuestions and curiosity kept the session going.",
       },
       {
-        image: "/Events/neurovate2.0/m3.jpeg",
+        image: "/events/neurovate2.0/m3.jpeg",
         caption: "The full house settled in for the presentation.\nCovered a look back at what CodeAI has done so far.",
       },
       {
-        image: "/Events/neurovate2.0/m4.jpeg",
+        image: "/events/neurovate2.0/m4.jpeg",
         caption: "Wrapped up the session with everyone together.\nA great way to close out the event on a high note.",
       },
     ],
   },
+  
   {
     title: "CodeVerse 1.0",
     date: "NOV 08, 2025",
